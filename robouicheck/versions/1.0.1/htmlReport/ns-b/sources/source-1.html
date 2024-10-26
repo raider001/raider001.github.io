@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Window</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.os</a>
+</div>
+
+<h1>Coverage Summary for Class: Window (com.kalynx.uitestframework.os)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Window</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.os;
+&nbsp;
+&nbsp;import com.kalynx.uitestframework.exceptions.WindowException;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface Window {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns all window names.
+&nbsp;     *
+&nbsp;     * @return Name of All windows
+&nbsp;     */
+&nbsp;    List&lt;String&gt; getAllWindows();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the window dimensions for the specified window
+&nbsp;     *
+&nbsp;     * @param windowName The name of the window
+&nbsp;     * @return Window dimensions, or Null if window not found.
+&nbsp;     */
+&nbsp;    Rectangle getWindowDimensions(String windowName) throws WindowException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the window position relative to its current position
+&nbsp;     *
+&nbsp;     * @param windowName The name of the window
+&nbsp;     * @param x The horizontal position on the screen
+&nbsp;     * @param y The vertical position on the screen
+&nbsp;     * @return True if the window position was set successfully, False otherwise
+&nbsp;     */
+&nbsp;    boolean setWindowPosition(String windowName, int x, int y);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the window position based on the display reference
+&nbsp;     *
+&nbsp;     * @param windowName The name of the window
+&nbsp;     * @param displayReference The reference of the display the window is on.
+&nbsp;     * @param x The horizontal position on the screen
+&nbsp;     * @param y The vertical position on the screen.
+&nbsp;     * @return True if the window position was set successfully, False otherwise
+&nbsp;     */
+&nbsp;    boolean setWindowPosition(String windowName, String displayReference, int x, int y);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the window size
+&nbsp;     *
+&nbsp;     * @param windowName The name of the window
+&nbsp;     * @param width The new width for the window
+&nbsp;     * @param height The new height for the window
+&nbsp;     * @return True if the window size was set successfully, False otherwise
+&nbsp;     */
+&nbsp;    boolean setWindowSize(String windowName, int width, int height);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Bring the window to the front.
+&nbsp;     *
+&nbsp;     * @param windowName The name of the window
+&nbsp;     * @return True if the window was brought to the front, False otherwise
+&nbsp;     */
+&nbsp;    boolean bringToFront(String windowName);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

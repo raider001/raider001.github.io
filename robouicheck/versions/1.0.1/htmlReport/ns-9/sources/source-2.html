@@ -1,0 +1,248 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > WindowsWindowApi</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.os.windows</a>
+</div>
+
+<h1>Coverage Summary for Class: WindowsWindowApi (com.kalynx.uitestframework.os.windows)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WindowsWindowApi</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (74/74)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.os.windows;
+&nbsp;
+&nbsp;import com.kalynx.uitestframework.controller.DisplayManager;
+&nbsp;import com.kalynx.uitestframework.os.Window;
+&nbsp;import com.sun.jna.Native;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.concurrent.atomic.AtomicReference;
+&nbsp;
+&nbsp;public class WindowsWindowApi implements Window {
+&nbsp;
+<b class="fc">&nbsp;    private static final User32 WINDOW_API = User32.INSTANCE;</b>
+&nbsp;    private final DisplayManager displayManager;
+&nbsp;
+<b class="fc">&nbsp;    public WindowsWindowApi(DisplayManager displayManager) {</b>
+<b class="fc">&nbsp;        this.displayManager = displayManager;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;String&gt; getAllWindows() {
+&nbsp;
+<b class="fc">&nbsp;        List&lt;String&gt; windowTitles = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        User32.WNDENUMPROC enumCallback = (hWnd, arg) -&gt; {</b>
+<b class="fc">&nbsp;            char[] buffer = new char[1024];</b>
+<b class="fc">&nbsp;            WINDOW_API.GetWindowTextW(hWnd, buffer, buffer.length);</b>
+<b class="fc">&nbsp;            String windowTitle = Native.toString(buffer);</b>
+<b class="fc">&nbsp;            if (!windowTitle.isEmpty() &amp;&amp; !windowTitles.contains(windowTitle)) {</b>
+<b class="fc">&nbsp;                windowTitles.add(windowTitle);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        };
+<b class="fc">&nbsp;        WINDOW_API.EnumWindows(enumCallback, null);</b>
+<b class="fc">&nbsp;        return windowTitles;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Rectangle getWindowDimensions(String windowName) {
+<b class="fc">&nbsp;        AtomicReference&lt;Rectangle&gt; rectangle = new AtomicReference&lt;&gt;();</b>
+<b class="fc">&nbsp;        User32.WNDENUMPROC enumCallback = (hWnd, arg) -&gt; {</b>
+<b class="fc">&nbsp;            char[] buffer = new char[1024];</b>
+<b class="fc">&nbsp;            WINDOW_API.GetWindowTextW(hWnd, buffer, buffer.length);</b>
+<b class="fc">&nbsp;            String windowTitle = Native.toString(buffer);</b>
+<b class="fc">&nbsp;            if (!windowTitle.isEmpty() &amp;&amp; windowTitle.contains(windowName)) {</b>
+<b class="fc">&nbsp;                User32.RECT rect = new User32.RECT();</b>
+<b class="fc">&nbsp;                WINDOW_API.GetWindowRect(hWnd, rect);</b>
+<b class="fc">&nbsp;                rectangle.set(new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        };
+<b class="fc">&nbsp;        WINDOW_API.EnumWindows(enumCallback, null);</b>
+<b class="fc">&nbsp;        return rectangle.get();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean setWindowPosition(String windowName, int x, int y) {
+&nbsp;        // set the Window Position for the given window with the window name to the given x and y position.
+<b class="fc">&nbsp;        User32.WNDENUMPROC enumCallback = (hWnd, arg) -&gt; {</b>
+<b class="fc">&nbsp;            char[] buffer = new char[1024];</b>
+<b class="fc">&nbsp;            WINDOW_API.GetWindowTextW(hWnd, buffer, buffer.length);</b>
+<b class="fc">&nbsp;            String windowTitle = Native.toString(buffer);</b>
+<b class="fc">&nbsp;            if (!windowTitle.isEmpty() &amp;&amp; windowTitle.contains(windowName)) {</b>
+<b class="fc">&nbsp;                User32.RECT rect = new User32.RECT();</b>
+<b class="fc">&nbsp;                WINDOW_API.GetWindowRect(hWnd, rect);</b>
+<b class="fc">&nbsp;                Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);</b>
+&nbsp;
+<b class="fc">&nbsp;                WINDOW_API.MoveWindow(hWnd, x + rect.left, y + rect.top, rectangle.width, rectangle.height, true);</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        };
+<b class="fc">&nbsp;        return !WINDOW_API.EnumWindows(enumCallback, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean setWindowPosition(String windowName, String displayReference, int x, int y) {
+<b class="fc">&nbsp;        User32.WNDENUMPROC enumCallback = (hWnd, arg) -&gt; {</b>
+<b class="fc">&nbsp;            char[] buffer = new char[1024];</b>
+<b class="fc">&nbsp;            WINDOW_API.GetWindowTextW(hWnd, buffer, buffer.length);</b>
+<b class="fc">&nbsp;            String windowTitle = Native.toString(buffer);</b>
+<b class="fc">&nbsp;            if (!windowTitle.isEmpty() &amp;&amp; windowTitle.contains(windowName)) {</b>
+<b class="fc">&nbsp;                User32.RECT rect = new User32.RECT();</b>
+<b class="fc">&nbsp;                WINDOW_API.GetWindowRect(hWnd, rect);</b>
+<b class="fc">&nbsp;                int dispX = displayManager.getDisplay(displayReference).x();</b>
+<b class="fc">&nbsp;                int dispY = displayManager.getDisplay(displayReference).y();</b>
+<b class="fc">&nbsp;                Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);</b>
+<b class="fc">&nbsp;                WINDOW_API.MoveWindow(hWnd, x + dispX, y + dispY, rectangle.width, rectangle.height, true);</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        };
+<b class="fc">&nbsp;        return !WINDOW_API.EnumWindows(enumCallback, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the window size
+&nbsp;     *
+&nbsp;     * @param windowName
+&nbsp;     * @param width
+&nbsp;     * @param height
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean setWindowSize(String windowName, int width, int height) {
+<b class="fc">&nbsp;        if (width &lt; 0 || height &lt; 0) throw new IllegalArgumentException(&quot;Width and Height must be greater than 0&quot;);</b>
+<b class="fc">&nbsp;        User32.WNDENUMPROC enumCallback = (hWnd, arg) -&gt; {</b>
+<b class="fc">&nbsp;            char[] buffer = new char[1024];</b>
+<b class="fc">&nbsp;            WINDOW_API.GetWindowTextW(hWnd, buffer, buffer.length);</b>
+<b class="fc">&nbsp;            String windowTitle = Native.toString(buffer);</b>
+<b class="fc">&nbsp;            if (!windowTitle.isEmpty() &amp;&amp; windowTitle.contains(windowName)) {</b>
+<b class="fc">&nbsp;                User32.RECT rect = new User32.RECT();</b>
+<b class="fc">&nbsp;                WINDOW_API.GetWindowRect(hWnd, rect);</b>
+<b class="fc">&nbsp;                WINDOW_API.MoveWindow(hWnd, rect.left, rect.top,  width, height, true);</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        };
+<b class="fc">&nbsp;        return WINDOW_API.EnumWindows(enumCallback, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Bring the window to the front.
+&nbsp;     *
+&nbsp;     * @param windowName
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean bringToFront(String windowName) {
+<b class="fc">&nbsp;        User32.WNDENUMPROC enumCallback = (hWnd, arg) -&gt; {</b>
+<b class="fc">&nbsp;            char[] buffer = new char[1024];</b>
+<b class="fc">&nbsp;            WINDOW_API.GetWindowTextW(hWnd, buffer, buffer.length);</b>
+<b class="fc">&nbsp;            String windowTitle = Native.toString(buffer);</b>
+<b class="fc">&nbsp;            if (!windowTitle.isEmpty() &amp;&amp; windowTitle.contains(windowName)) {</b>
+<b class="fc">&nbsp;                User32.RECT rect = new User32.RECT();</b>
+<b class="fc">&nbsp;                WINDOW_API.SetForegroundWindow(hWnd);</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        };
+<b class="fc">&nbsp;        return !WINDOW_API.EnumWindows(enumCallback, null);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

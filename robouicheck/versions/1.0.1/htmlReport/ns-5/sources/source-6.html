@@ -1,0 +1,194 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > KeyboardSpecialKeys</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.data</a>
+</div>
+
+<h1>Coverage Summary for Class: KeyboardSpecialKeys (com.kalynx.uitestframework.data)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">KeyboardSpecialKeys</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (78/78)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.data;
+&nbsp;
+&nbsp;import java.awt.event.KeyEvent;
+&nbsp;
+<b class="fc">&nbsp;public enum KeyboardSpecialKeys {</b>
+<b class="fc">&nbsp;    ENTER(KeyEvent.VK_ENTER),</b>
+<b class="fc">&nbsp;    BACK_SPACE(KeyEvent.VK_BACK_SPACE),</b>
+<b class="fc">&nbsp;    TAB(KeyEvent.VK_TAB),</b>
+<b class="fc">&nbsp;    CANCEL(KeyEvent.VK_CANCEL),</b>
+<b class="fc">&nbsp;    CLEAR(KeyEvent.VK_CLEAR),</b>
+<b class="fc">&nbsp;    SHIFT(KeyEvent.VK_SHIFT),</b>
+<b class="fc">&nbsp;    CONTROL(KeyEvent.VK_CONTROL),</b>
+<b class="fc">&nbsp;    ALT(KeyEvent.VK_ALT),</b>
+<b class="fc">&nbsp;    PAUSE(KeyEvent.VK_PAUSE),</b>
+<b class="fc">&nbsp;    CAPSLOCK(KeyEvent.VK_CAPS_LOCK),</b>
+<b class="fc">&nbsp;    ESCAPE(KeyEvent.VK_ESCAPE),</b>
+<b class="fc">&nbsp;    SPACE(KeyEvent.VK_SPACE),</b>
+<b class="fc">&nbsp;    PAGE_UP(KeyEvent.VK_PAGE_UP),</b>
+<b class="fc">&nbsp;    PAGE_DOWN(KeyEvent.VK_PAGE_DOWN),</b>
+<b class="fc">&nbsp;    END(KeyEvent.VK_END),</b>
+<b class="fc">&nbsp;    HOME(KeyEvent.VK_HOME),</b>
+<b class="fc">&nbsp;    LEFT(KeyEvent.VK_LEFT),</b>
+<b class="fc">&nbsp;    UP(KeyEvent.VK_UP),</b>
+<b class="fc">&nbsp;    RIGHT(KeyEvent.VK_RIGHT),</b>
+<b class="fc">&nbsp;    DOWN(KeyEvent.VK_DOWN),</b>
+<b class="fc">&nbsp;    DELETE(KeyEvent.VK_DELETE),</b>
+<b class="fc">&nbsp;    F1(KeyEvent.VK_F1),</b>
+<b class="fc">&nbsp;    F2(KeyEvent.VK_F2),</b>
+<b class="fc">&nbsp;    F3(KeyEvent.VK_F3),</b>
+<b class="fc">&nbsp;    F4(KeyEvent.VK_F4),</b>
+<b class="fc">&nbsp;    F5(KeyEvent.VK_F5),</b>
+<b class="fc">&nbsp;    F6(KeyEvent.VK_F6),</b>
+<b class="fc">&nbsp;    F7(KeyEvent.VK_F7),</b>
+<b class="fc">&nbsp;    F8(KeyEvent.VK_F8),</b>
+<b class="fc">&nbsp;    F9(KeyEvent.VK_F9),</b>
+<b class="fc">&nbsp;    F10(KeyEvent.VK_F10),</b>
+<b class="fc">&nbsp;    F11(KeyEvent.VK_F11),</b>
+<b class="fc">&nbsp;    F12(KeyEvent.VK_F12),</b>
+<b class="fc">&nbsp;    F13(KeyEvent.VK_F13),</b>
+<b class="fc">&nbsp;    F14(KeyEvent.VK_F14),</b>
+<b class="fc">&nbsp;    F15(KeyEvent.VK_F15),</b>
+<b class="fc">&nbsp;    F16(KeyEvent.VK_F16),</b>
+<b class="fc">&nbsp;    F17(KeyEvent.VK_F17),</b>
+<b class="fc">&nbsp;    F18(KeyEvent.VK_F18),</b>
+<b class="fc">&nbsp;    F19(KeyEvent.VK_F19),</b>
+<b class="fc">&nbsp;    F20(KeyEvent.VK_F20),</b>
+<b class="fc">&nbsp;    F21(KeyEvent.VK_F21),</b>
+<b class="fc">&nbsp;    F22(KeyEvent.VK_F22),</b>
+<b class="fc">&nbsp;    F23(KeyEvent.VK_F23),</b>
+<b class="fc">&nbsp;    F24(KeyEvent.VK_F24),</b>
+<b class="fc">&nbsp;    PRINT_SCREEN(KeyEvent.VK_PRINTSCREEN),</b>
+<b class="fc">&nbsp;    INSERT(KeyEvent.VK_INSERT),</b>
+<b class="fc">&nbsp;    HELP(KeyEvent.VK_HELP),</b>
+<b class="fc">&nbsp;    META(KeyEvent.VK_META),</b>
+<b class="fc">&nbsp;    A(KeyEvent.VK_A),</b>
+<b class="fc">&nbsp;    B(KeyEvent.VK_B),</b>
+<b class="fc">&nbsp;    C(KeyEvent.VK_C),</b>
+<b class="fc">&nbsp;    D(KeyEvent.VK_D),</b>
+<b class="fc">&nbsp;    E(KeyEvent.VK_E),</b>
+<b class="fc">&nbsp;    F(KeyEvent.VK_F),</b>
+<b class="fc">&nbsp;    G(KeyEvent.VK_G),</b>
+<b class="fc">&nbsp;    H(KeyEvent.VK_H),</b>
+<b class="fc">&nbsp;    I(KeyEvent.VK_I),</b>
+<b class="fc">&nbsp;    J(KeyEvent.VK_J),</b>
+<b class="fc">&nbsp;    K(KeyEvent.VK_K),</b>
+<b class="fc">&nbsp;    L(KeyEvent.VK_L),</b>
+<b class="fc">&nbsp;    M(KeyEvent.VK_M),</b>
+<b class="fc">&nbsp;    N(KeyEvent.VK_N),</b>
+<b class="fc">&nbsp;    O(KeyEvent.VK_O),</b>
+<b class="fc">&nbsp;    P(KeyEvent.VK_P),</b>
+<b class="fc">&nbsp;    Q(KeyEvent.VK_Q),</b>
+<b class="fc">&nbsp;    R(KeyEvent.VK_R),</b>
+<b class="fc">&nbsp;    S(KeyEvent.VK_S),</b>
+<b class="fc">&nbsp;    T(KeyEvent.VK_T),</b>
+<b class="fc">&nbsp;    U(KeyEvent.VK_U),</b>
+<b class="fc">&nbsp;    V(KeyEvent.VK_V),</b>
+<b class="fc">&nbsp;    W(KeyEvent.VK_W),</b>
+<b class="fc">&nbsp;    X(KeyEvent.VK_X),</b>
+<b class="fc">&nbsp;    Y(KeyEvent.VK_Y),</b>
+<b class="fc">&nbsp;    Z(KeyEvent.VK_Z),</b>
+&nbsp;    ;
+&nbsp;
+&nbsp;
+&nbsp;    public final int id;
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    KeyboardSpecialKeys(int id) {</b>
+<b class="fc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

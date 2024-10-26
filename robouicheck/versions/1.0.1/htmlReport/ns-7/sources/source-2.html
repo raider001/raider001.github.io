@@ -1,0 +1,453 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > KeyboardKeywords</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.keywords</a>
+</div>
+
+<h1>Coverage Summary for Class: KeyboardKeywords (com.kalynx.uitestframework.keywords)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">KeyboardKeywords</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (41/41)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.keywords;
+&nbsp;
+&nbsp;import com.kalynx.uitestframework.DI;
+&nbsp;import com.kalynx.uitestframework.controller.KeyboardController;
+&nbsp;import com.kalynx.uitestframework.data.KeyboardSpecialKeys;
+&nbsp;import org.robotframework.javalib.annotation.ArgumentNames;
+&nbsp;import org.robotframework.javalib.annotation.RobotKeyword;
+&nbsp;import org.robotframework.javalib.annotation.RobotKeywordOverload;
+&nbsp;import org.robotframework.javalib.annotation.RobotKeywords;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RobotKeywords
+<b class="fc">&nbsp;public class KeyboardKeywords {</b>
+&nbsp;
+<b class="fc">&nbsp;    private static final KeyboardController KEYBOARD_CONTROLLER = DI.getInstance().getDependency(KeyboardController.class);</b>
+&nbsp;    public static final String KEY_S_IS_NOT_A_VALID_KEY = &quot;Key %s is not a valid key&quot;;
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Types the given message
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;message&quot;})
+&nbsp;    public void type(String message) throws Exception {
+<b class="fc">&nbsp;        KEYBOARD_CONTROLLER.type(message);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Holds the requested key. It wont be released until the release key has been called
+&nbsp;                        
+&nbsp;            Available Options:
+&nbsp;             - ENTER
+&nbsp;             - BACK_SPACE
+&nbsp;             - TAB
+&nbsp;             - CANCEL
+&nbsp;             - CLEAR
+&nbsp;             - SHIFT
+&nbsp;             - CONTROL
+&nbsp;             - ALT
+&nbsp;             - PAUSE
+&nbsp;             - CAPSLOCK
+&nbsp;             - ESCAPE
+&nbsp;             - SPACE
+&nbsp;             - PAGE_UP
+&nbsp;             - PAGE_DOWN
+&nbsp;             - END
+&nbsp;             - HOME
+&nbsp;             - LEFT
+&nbsp;             - UP
+&nbsp;             - RIGHT
+&nbsp;             - DOWN
+&nbsp;             - DELETE
+&nbsp;             - F1
+&nbsp;             - F2
+&nbsp;             - F3
+&nbsp;             - F4
+&nbsp;             - F5
+&nbsp;             - F6
+&nbsp;             - F7
+&nbsp;             - F8
+&nbsp;             - F9
+&nbsp;             - F10
+&nbsp;             - F11
+&nbsp;             - F12
+&nbsp;             - F13
+&nbsp;             - F14
+&nbsp;             - F15
+&nbsp;             - F16
+&nbsp;             - F17
+&nbsp;             - F18
+&nbsp;             - F19
+&nbsp;             - F20
+&nbsp;             - F21
+&nbsp;             - F22
+&nbsp;             - F23
+&nbsp;             - F24
+&nbsp;             - PRINT_SCREEN
+&nbsp;             - INSERT
+&nbsp;             - HELP
+&nbsp;             - META
+&nbsp;             - A
+&nbsp;             - B
+&nbsp;             - C
+&nbsp;             - D
+&nbsp;             - E
+&nbsp;             - F
+&nbsp;             - G
+&nbsp;             - H
+&nbsp;             - I
+&nbsp;             - J
+&nbsp;             - K
+&nbsp;             - L
+&nbsp;             - M
+&nbsp;             - N
+&nbsp;             - O
+&nbsp;             - P
+&nbsp;             - Q
+&nbsp;             - R
+&nbsp;             - S
+&nbsp;             - T
+&nbsp;             - U
+&nbsp;             - V
+&nbsp;             - W
+&nbsp;             - X
+&nbsp;             - Y
+&nbsp;             - Z
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;key&quot;})
+&nbsp;    public void holdKey(String key) throws Exception {
+<b class="fc">&nbsp;        if (key != null &amp;&amp; !key.isEmpty()) {</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                KeyboardSpecialKeys specialKey = KeyboardSpecialKeys.valueOf(key);</b>
+<b class="fc">&nbsp;                KEYBOARD_CONTROLLER.keyPress(specialKey);</b>
+<b class="fc">&nbsp;            } catch (IllegalArgumentException e) {</b>
+<b class="fc">&nbsp;                throw new IllegalArgumentException(KEY_S_IS_NOT_A_VALID_KEY.formatted(key));</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Releases the requested key
+&nbsp;                        
+&nbsp;            Available Options:
+&nbsp;             - ENTER
+&nbsp;             - BACK_SPACE
+&nbsp;             - TAB
+&nbsp;             - CANCEL
+&nbsp;             - CLEAR
+&nbsp;             - SHIFT
+&nbsp;             - CONTROL
+&nbsp;             - ALT
+&nbsp;             - PAUSE
+&nbsp;             - CAPSLOCK
+&nbsp;             - ESCAPE
+&nbsp;             - SPACE
+&nbsp;             - PAGE_UP
+&nbsp;             - PAGE_DOWN
+&nbsp;             - END
+&nbsp;             - HOME
+&nbsp;             - LEFT
+&nbsp;             - UP
+&nbsp;             - RIGHT
+&nbsp;             - DOWN
+&nbsp;             - DELETE
+&nbsp;             - F1
+&nbsp;             - F2
+&nbsp;             - F3
+&nbsp;             - F4
+&nbsp;             - F5
+&nbsp;             - F6
+&nbsp;             - F7
+&nbsp;             - F8
+&nbsp;             - F9
+&nbsp;             - F10
+&nbsp;             - F11
+&nbsp;             - F12
+&nbsp;             - F13
+&nbsp;             - F14
+&nbsp;             - F15
+&nbsp;             - F16
+&nbsp;             - F17
+&nbsp;             - F18
+&nbsp;             - F19
+&nbsp;             - F20
+&nbsp;             - F21
+&nbsp;             - F22
+&nbsp;             - F23
+&nbsp;             - F24
+&nbsp;             - PRINT_SCREEN
+&nbsp;             - INSERT
+&nbsp;             - HELP
+&nbsp;             - META
+&nbsp;             - A
+&nbsp;             - B
+&nbsp;             - C
+&nbsp;             - D
+&nbsp;             - E
+&nbsp;             - F
+&nbsp;             - G
+&nbsp;             - H
+&nbsp;             - I
+&nbsp;             - J
+&nbsp;             - K
+&nbsp;             - L
+&nbsp;             - M
+&nbsp;             - N
+&nbsp;             - O
+&nbsp;             - P
+&nbsp;             - Q
+&nbsp;             - R
+&nbsp;             - S
+&nbsp;             - T
+&nbsp;             - U
+&nbsp;             - V
+&nbsp;             - W
+&nbsp;             - X
+&nbsp;             - Y
+&nbsp;             - Z
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;key&quot;})
+&nbsp;    public void releaseKey(String key) throws Exception {
+<b class="fc">&nbsp;        if (key != null &amp;&amp; !key.isEmpty()) {</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                KeyboardSpecialKeys specialKey = KeyboardSpecialKeys.valueOf(key);</b>
+<b class="fc">&nbsp;                KEYBOARD_CONTROLLER.keyRelease(specialKey);</b>
+<b class="fc">&nbsp;            } catch (IllegalArgumentException e) {</b>
+<b class="fc">&nbsp;                throw new IllegalArgumentException(KEY_S_IS_NOT_A_VALID_KEY.formatted(key));</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            presses a set of keys, then releases them immediately afterwords.
+&nbsp;                        
+&nbsp;            Available Options:
+&nbsp;             - ENTER
+&nbsp;             - BACK_SPACE
+&nbsp;             - TAB
+&nbsp;             - CANCEL
+&nbsp;             - CLEAR
+&nbsp;             - SHIFT
+&nbsp;             - CONTROL
+&nbsp;             - ALT
+&nbsp;             - PAUSE
+&nbsp;             - CAPSLOCK
+&nbsp;             - ESCAPE
+&nbsp;             - SPACE
+&nbsp;             - PAGE_UP
+&nbsp;             - PAGE_DOWN
+&nbsp;             - END
+&nbsp;             - HOME
+&nbsp;             - LEFT
+&nbsp;             - UP
+&nbsp;             - RIGHT
+&nbsp;             - DOWN
+&nbsp;             - DELETE
+&nbsp;             - F1
+&nbsp;             - F2
+&nbsp;             - F3
+&nbsp;             - F4
+&nbsp;             - F5
+&nbsp;             - F6
+&nbsp;             - F7
+&nbsp;             - F8
+&nbsp;             - F9
+&nbsp;             - F10
+&nbsp;             - F11
+&nbsp;             - F12
+&nbsp;             - F13
+&nbsp;             - F14
+&nbsp;             - F15
+&nbsp;             - F16
+&nbsp;             - F17
+&nbsp;             - F18
+&nbsp;             - F19
+&nbsp;             - F20
+&nbsp;             - F21
+&nbsp;             - F22
+&nbsp;             - F23
+&nbsp;             - F24
+&nbsp;             - PRINT_SCREEN
+&nbsp;             - INSERT
+&nbsp;             - HELP
+&nbsp;             - META
+&nbsp;             - A
+&nbsp;             - B
+&nbsp;             - C
+&nbsp;             - D
+&nbsp;             - E
+&nbsp;             - F
+&nbsp;             - G
+&nbsp;             - H
+&nbsp;             - I
+&nbsp;             - J
+&nbsp;             - K
+&nbsp;             - L
+&nbsp;             - M
+&nbsp;             - N
+&nbsp;             - O
+&nbsp;             - P
+&nbsp;             - Q
+&nbsp;             - R
+&nbsp;             - S
+&nbsp;             - T
+&nbsp;             - U
+&nbsp;             - V
+&nbsp;             - W
+&nbsp;             - X
+&nbsp;             - Y
+&nbsp;             - Z
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;key1&quot;, &quot;key2=None&quot;, &quot;key3=None&quot;, &quot;key4=None&quot;, &quot;key5=None&quot;})
+&nbsp;    public void pressKeys(String key1, String key2, String key3, String key4, String key5) throws Exception {
+<b class="fc">&nbsp;        List&lt;String&gt; pressedKeys = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        testKeyPress(key1, pressedKeys);</b>
+<b class="fc">&nbsp;        testKeyPress(key2, pressedKeys);</b>
+<b class="fc">&nbsp;        testKeyPress(key3, pressedKeys);</b>
+<b class="fc">&nbsp;        testKeyPress(key4, pressedKeys);</b>
+<b class="fc">&nbsp;        testKeyPress(key5, pressedKeys);</b>
+<b class="fc">&nbsp;        releaseKeys(pressedKeys);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void testKeyPress(String key, List&lt;String&gt; pressedKeys) throws Exception {
+&nbsp;        try{
+<b class="fc">&nbsp;            pressKey(key);</b>
+<b class="fc">&nbsp;            pressedKeys.add(key);</b>
+<b class="fc">&nbsp;        } catch(IllegalArgumentException err) {</b>
+<b class="fc">&nbsp;            releaseKeys(pressedKeys);</b>
+<b class="fc">&nbsp;            throw err;</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeywordOverload
+&nbsp;    public void pressKeys(String key1, String key2, String key3, String key4) throws Exception {
+<b class="fc">&nbsp;        pressKeys(key1, key2, key3, key4, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeywordOverload
+&nbsp;    public void pressKeys(String key1, String key2, String key3) throws Exception {
+<b class="fc">&nbsp;        pressKeys(key1, key2, key3, null, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeywordOverload
+&nbsp;    public void pressKeys(String key1, String key2) throws Exception {
+<b class="fc">&nbsp;        pressKeys(key1, key2, null, null, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeywordOverload
+&nbsp;    public void pressKeys(String key1) throws Exception {
+<b class="fc">&nbsp;        pressKeys(key1, null, null, null, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void releaseKeys(List&lt;String&gt; pressedKeys) throws Exception {
+<b class="fc">&nbsp;        for(String key: pressedKeys){</b>
+<b class="fc">&nbsp;            releaseKey(key);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void pressKey(String key) throws InterruptedException {
+<b class="fc">&nbsp;        if (key != null &amp;&amp; !key.isEmpty()) {</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                KeyboardSpecialKeys specialKey = KeyboardSpecialKeys.valueOf(key.toUpperCase());</b>
+<b class="fc">&nbsp;                KEYBOARD_CONTROLLER.keyPress(specialKey);</b>
+<b class="fc">&nbsp;            } catch (IllegalArgumentException e) {</b>
+<b class="fc">&nbsp;                throw new IllegalArgumentException(KEY_S_IS_NOT_A_VALID_KEY.formatted(key));</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,399 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CvMonitor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.screen</a>
+</div>
+
+<h1>Coverage Summary for Class: CvMonitor (com.kalynx.uitestframework.screen)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CvMonitor</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.1%
+  </span>
+  <span class="absValue">
+    (16/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94%
+  </span>
+  <span class="absValue">
+    (109/116)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CvMonitor$Data</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">CvMonitor$MonitorData</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    94.7%
+  </span>
+  <span class="absValue">
+    (18/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.2%
+  </span>
+  <span class="absValue">
+    (114/121)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.screen;
+&nbsp;
+&nbsp;import com.kalynx.simplethreadingservice.ThreadService;
+&nbsp;import com.kalynx.uitestframework.controller.DisplayManager;
+&nbsp;import com.kalynx.uitestframework.controller.Settings;
+&nbsp;import com.kalynx.uitestframework.data.*;
+&nbsp;import org.opencv.core.*;
+&nbsp;import org.opencv.highgui.HighGui;
+&nbsp;import org.opencv.imgcodecs.Imgcodecs;
+&nbsp;import org.opencv.imgproc.Imgproc;
+&nbsp;
+&nbsp;import javax.imageio.ImageIO;
+&nbsp;import java.awt.Rectangle;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;import java.io.ByteArrayOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.math.BigDecimal;
+&nbsp;import java.math.RoundingMode;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.time.Duration;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Function;
+&nbsp;import java.util.function.Supplier;
+&nbsp;
+&nbsp;public class CvMonitor {
+<b class="fc">&nbsp;    private final static Map&lt;Integer, Function&lt;Core.MinMaxLocResult,Double&gt;&gt; matchAlgorithm = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    private final ImageLibrary imageLibrary = new ImageLibrary();</b>
+&nbsp;    private  final DisplayManager displayManager;
+&nbsp;    private final Settings settings;
+<b class="fc">&nbsp;    private Path imageLocation = Path.of(&quot;.&quot;, &quot;images&quot;);</b>
+<b class="fc">&nbsp;    private Path resultLocation = Path.of(&quot;.&quot;,&quot;log&quot;, &quot;image_results&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;    public CvMonitor(double matchScore, DisplayManager displayManager, Settings settings) {</b>
+<b class="fc">&nbsp;        if (matchScore &lt;= 0 || matchScore &gt;= 1) throw new AssertionError(&quot;matchScore can only be between 0 and 1&quot;);</b>
+<b class="fc">&nbsp;        matchAlgorithm.put(Imgproc.TM_SQDIFF, r -&gt; 1 - r.minVal);</b>
+<b class="fc">&nbsp;        matchAlgorithm.put(Imgproc.TM_SQDIFF_NORMED, r -&gt; 1 - r.minVal);</b>
+<b class="fc">&nbsp;        matchAlgorithm.put(Imgproc.TM_CCOEFF, r -&gt; r.maxVal / 100);</b>
+<b class="fc">&nbsp;        matchAlgorithm.put(Imgproc.TM_CCOEFF_NORMED, r -&gt; r.maxVal);</b>
+<b class="fc">&nbsp;        matchAlgorithm.put(Imgproc.TM_CCORR, r -&gt; r.maxVal);</b>
+<b class="fc">&nbsp;        matchAlgorithm.put(Imgproc.TM_CCORR_NORMED, r -&gt; r.maxVal);</b>
+<b class="fc">&nbsp;        this.displayManager = displayManager;</b>
+<b class="fc">&nbsp;        this.settings = settings;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static Mat imageToMat(BufferedImage sourceImg) throws IOException {
+<b class="fc">&nbsp;        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            ImageIO.write(sourceImg, &quot;jpg&quot;, byteArrayOutputStream);</b>
+<b class="fc">&nbsp;            byteArrayOutputStream.flush();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new IOException(e);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return Imgcodecs.imdecode(new MatOfByte(byteArrayOutputStream.toByteArray()), Imgcodecs.IMREAD_COLOR);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Result&lt;ScreenshotData&gt; generateSuccessfulResult(Mat matchImage, double expectedSimilarity, Result&lt;Data&gt; successfulResult) throws IOException {
+<b class="fc">&nbsp;        Data data = successfulResult.getData();</b>
+<b class="fc">&nbsp;        Point xy1 = data.loc;</b>
+<b class="fc">&nbsp;        Point xy2 = new Point(data.loc.x + matchImage.cols(), data.loc.y + matchImage.rows());</b>
+&nbsp;
+<b class="fc">&nbsp;        Imgproc.rectangle(successfulResult.getData().screenshot(), xy1, xy2,</b>
+&nbsp;                new Scalar(0, 0, 255), 2, 8, 0);
+&nbsp;
+<b class="fc">&nbsp;        BufferedImage buffImage = (BufferedImage) HighGui.toBufferedImage(successfulResult.getData().screenshot());</b>
+<b class="fc">&nbsp;        if(Files.notExists(resultLocation)) Files.createDirectories(resultLocation);</b>
+<b class="fc">&nbsp;        Path resultLoc = Path.of(resultLocation.toString(), successfulResult.getData().takenTime() + &quot;.jpg&quot;);</b>
+<b class="fc">&nbsp;        ImageIO.write(buffImage, &quot;jpg&quot;, resultLoc.toFile());</b>
+<b class="fc">&nbsp;        String htmlResult = generateHTMLResult(data.score, expectedSimilarity,</b>
+<b class="fc">&nbsp;                successfulResult.getData().takenTime(), matchImage,</b>
+&nbsp;                buffImage);
+<b class="fc">&nbsp;        Rectangle rect = new Rectangle((int) xy1.x, (int) xy1.y, matchImage.cols(), matchImage.rows());</b>
+<b class="fc">&nbsp;        return new SuccessfulResult&lt;&gt;(Optional.of(new ScreenshotData(data.takenTime(), data.screenshot(), rect)), htmlResult);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Result&lt;ScreenshotData&gt; generateFailedResult(Mat match, double expectedSimilarity, List&lt;Result&lt;Data&gt;&gt; results) throws IOException {
+<b class="fc">&nbsp;        Comparator&lt;Result&lt;Data&gt;&gt; comp = Comparator.comparingDouble(data -&gt; data.getData().score);</b>
+<b class="fc">&nbsp;        results.sort(comp);</b>
+<b class="fc">&nbsp;        Result&lt;Data&gt; res = results.get(0);</b>
+<b class="fc">&nbsp;        Data data = res.getData();</b>
+<b class="fc">&nbsp;        int width = match.cols();</b>
+<b class="fc">&nbsp;        int height = match.rows();</b>
+<b class="fc">&nbsp;        Imgproc.rectangle(res.getData().screenshot(), data.loc, new Point(data.loc.x + width, data.loc.y + height),</b>
+&nbsp;                new Scalar(0, 0, 255), 2, 8, 0);
+<b class="fc">&nbsp;        BufferedImage buffImage = (BufferedImage) HighGui.toBufferedImage(res.getData().screenshot());</b>
+&nbsp;
+<b class="fc">&nbsp;        return new FailedResult&lt;&gt;(generateHTMLResult(</b>
+&nbsp;                data.score,
+&nbsp;                expectedSimilarity,
+<b class="fc">&nbsp;                res.getData().takenTime(),</b>
+&nbsp;                match,
+&nbsp;                buffImage));
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setLogLocation(Path logLocation) {
+<b class="fc">&nbsp;        resultLocation = Path.of(logLocation.toString(), imageLocation.toString());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setResultsLocation(Path imageLocation) {
+<b class="fc">&nbsp;        this.imageLocation = imageLocation;</b>
+<b class="fc">&nbsp;        resultLocation = imageLocation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addImagePath(String imagePath) {
+<b class="fc">&nbsp;        imageLibrary.addLibrary(Path.of(imagePath));</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;String&gt; getImagePaths() {
+<b class="nc">&nbsp;        return imageLibrary.getLibraryPaths();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public Result&lt;ScreenshotData&gt; monitorForImage(String imageLocation) throws IOException {
+<b class="fc">&nbsp;        return monitorForImage(settings.getTimeout(), imageLocation, settings.getMatchScore());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Result&lt;ScreenshotData&gt; monitorForLackOfImage(Duration duration, String imageLocation, double matchScore) throws IOException {
+<b class="fc">&nbsp;        Result&lt;MonitorData&gt; data = setupMonitoring(duration, imageLocation, matchScore);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (data.isFailure()) return new FailedResult&lt;&gt;(data.getInfo());</b>
+<b class="fc">&nbsp;        MonitorData monitorData = data.getData();</b>
+&nbsp;
+<b class="fc">&nbsp;        Supplier&lt;Result&lt;Data&gt;&gt; action = buildMatchResults(monitorData.templateContainer, monitorData.results, monitorData.requiredMatchScore);</b>
+<b class="fc">&nbsp;        ThreadService.schedule(action).forEvery(settings.getPollRate()).over(duration).orUntil(Result::isFailure).andWaitForCompletion();</b>
+<b class="fc">&nbsp;        Optional&lt;Result&lt;Data&gt;&gt; finalResult = monitorData.results.stream().filter(Result::isFailure).findFirst();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (finalResult.isPresent()) return generateSuccessfulResult(monitorData.templateContainer.template, monitorData.requiredMatchScore, finalResult.get());</b>
+&nbsp;
+<b class="nc">&nbsp;        return generateFailedResult(monitorData.templateContainer.template, monitorData.requiredMatchScore, monitorData.results);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Result&lt;ScreenshotData&gt; monitorForImage(Duration duration, String imageLocation, double matchScore) throws IOException {
+<b class="fc">&nbsp;        Result&lt;MonitorData&gt; data = setupMonitoring(duration, imageLocation, matchScore);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (data.isFailure()) return new FailedResult&lt;&gt;(data.getInfo());</b>
+&nbsp;
+<b class="fc">&nbsp;        MonitorData monitorData = data.getData();</b>
+<b class="fc">&nbsp;        Supplier&lt;Result&lt;Data&gt;&gt; action = buildMatchResults(data.getData().templateContainer, monitorData.results, monitorData.requiredMatchScore);</b>
+<b class="fc">&nbsp;        ThreadService.schedule(action).forEvery(settings.getPollRate()).over(duration).orUntil(Result::isSuccess).andWaitForCompletion();</b>
+<b class="fc">&nbsp;        Optional&lt;Result&lt;Data&gt;&gt; finalResult = monitorData.results.stream().filter(Result::isSuccess).findFirst();</b>
+<b class="fc">&nbsp;        if (finalResult.isPresent()) return generateSuccessfulResult(monitorData.templateContainer.template, monitorData.requiredMatchScore, finalResult.get());</b>
+&nbsp;
+<b class="fc">&nbsp;        return generateFailedResult(monitorData.templateContainer.template, monitorData.requiredMatchScore, monitorData.results);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Result&lt;MonitorData&gt; setupMonitoring(Duration duration, String imageLocation, double matchScore) {
+<b class="fc">&nbsp;        Objects.requireNonNull(duration);</b>
+<b class="fc">&nbsp;        Objects.requireNonNull(imageLocation);</b>
+&nbsp;
+<b class="fc">&nbsp;        if(matchScore == -1) matchScore = settings.getMatchScore();</b>
+<b class="fc">&nbsp;        Result&lt;ImageLibrary.TemplateContainer&gt; imageToFind = imageLibrary.findImage(Path.of(imageLocation));</b>
+&nbsp;
+<b class="fc">&nbsp;        if (imageToFind.isFailure()) return new FailedResult&lt;&gt;(imageToFind.getInfo());</b>
+&nbsp;
+<b class="fc">&nbsp;        MonitorData monitorData = new MonitorData(matchScore, imageToFind.getData());</b>
+<b class="fc">&nbsp;        return new SuccessfulResult&lt;&gt;(Optional.of(monitorData));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static class MonitorData {
+&nbsp;        final double requiredMatchScore;
+&nbsp;        final ImageLibrary.TemplateContainer templateContainer;
+<b class="fc">&nbsp;        final List&lt;Result&lt;Data&gt;&gt; results = Collections.synchronizedList(new ArrayList&lt;&gt;());</b>
+&nbsp;
+<b class="fc">&nbsp;        private MonitorData(double requiredMatchScore, ImageLibrary.TemplateContainer templateContainer) {</b>
+<b class="fc">&nbsp;            this.requiredMatchScore = requiredMatchScore;</b>
+<b class="fc">&nbsp;            this.templateContainer = templateContainer;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private Supplier&lt;Result&lt;Data&gt;&gt; buildMatchResults(ImageLibrary.TemplateContainer template, List&lt;Result&lt;Data&gt;&gt; results, double requiredMatchScore) {
+<b class="fc">&nbsp;        return () -&gt; {</b>
+&nbsp;            Result&lt;Data&gt; res;
+&nbsp;            try {
+<b class="fc">&nbsp;                res = match(template.template, template.mask, requiredMatchScore);</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            results.add(res);</b>
+<b class="fc">&nbsp;                return res;</b>
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;    private String generateHTMLResult(double similarity, double expectedSimularity, long time, Mat template, BufferedImage screenshot) throws IOException {
+<b class="fc">&nbsp;        String screenshotFileName = time + &quot;_screenshot.jpg&quot;;</b>
+<b class="fc">&nbsp;        String expectedFileName = time + &quot;_expected.jpg&quot;;</b>
+&nbsp;        // Path to write
+<b class="fc">&nbsp;        Path screenshotPath = Path.of(resultLocation.toString(), screenshotFileName);</b>
+<b class="fc">&nbsp;        Path expectedResultPath = Path.of(resultLocation.toString(), expectedFileName);</b>
+&nbsp;
+<b class="fc">&nbsp;        if(Files.notExists(resultLocation.toAbsolutePath()))</b>
+<b class="nc">&nbsp;            Files.createDirectories(resultLocation.toAbsolutePath());</b>
+&nbsp;
+<b class="fc">&nbsp;        ImageIO.write(screenshot, &quot;jpg&quot;, screenshotPath.toFile());</b>
+<b class="fc">&nbsp;        Imgcodecs.imwrite(expectedResultPath.toString(), template);</b>
+&nbsp;
+&nbsp;        // logLocation
+<b class="fc">&nbsp;        Path relativeToLogScreenshot = Path.of(imageLocation.toString(), screenshotFileName);</b>
+<b class="fc">&nbsp;        Path relativeToLogExpected = Path.of(imageLocation.toString(), expectedFileName);</b>
+<b class="fc">&nbsp;        BigDecimal bd = BigDecimal.valueOf(Double.isInfinite(similarity) ? 1 : similarity);</b>
+<b class="fc">&nbsp;        bd = bd.setScale(5, RoundingMode.HALF_UP);</b>
+<b class="fc">&nbsp;        return &quot;&quot;&quot;</b>
+&nbsp;                 Best match score: %s
+&nbsp;                 Needed: %s
+&nbsp;                 &lt;table&gt;
+&nbsp;                     &lt;tr&gt;
+&nbsp;                         &lt;td&gt;Best Match&lt;/td&gt;
+&nbsp;                         &lt;td&gt;Wanted&lt;/td&gt;
+&nbsp;                     &lt;/tr&gt;
+&nbsp;                     &lt;tr&gt;
+&nbsp;                         &lt;td&gt;&lt;a href=&quot;%s&quot;&gt;&lt;img src=&quot;%s&quot; height=&quot;100&quot; width=&quot;100&quot;&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+&nbsp;                         &lt;td&gt;&lt;img src=&quot;%s&quot;&gt;&lt;/img&gt;&lt;/td&gt;
+&nbsp;                     &lt;/tr&gt;
+&nbsp;                 &lt;/table&gt;
+<b class="fc">&nbsp;                &quot;&quot;&quot;.formatted(bd.toString(),</b>
+<b class="fc">&nbsp;                expectedSimularity,</b>
+<b class="fc">&nbsp;                relativeToLogScreenshot.toString(),</b>
+<b class="fc">&nbsp;                relativeToLogScreenshot.toString(),</b>
+<b class="fc">&nbsp;                relativeToLogExpected.toString());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    private Result&lt;Data&gt; match(Mat template, Mat mask, double matchScore) throws IOException {
+<b class="fc">&nbsp;        mask.convertTo(mask, CvType.CV_8U);</b>
+<b class="fc">&nbsp;        template.convertTo(template, CvType.CV_8U);</b>
+<b class="fc">&nbsp;        long takenTime = System.currentTimeMillis();</b>
+<b class="fc">&nbsp;        BufferedImage image = displayManager.capture();</b>
+&nbsp;
+<b class="fc">&nbsp;        Mat screenshot = imageToMat(image);</b>
+<b class="fc">&nbsp;        screenshot.convertTo(screenshot, CvType.CV_8U);</b>
+<b class="fc">&nbsp;        int resultCols = screenshot.cols() - template.cols() + 1;</b>
+<b class="fc">&nbsp;        int resultRows = screenshot.rows() - template.rows() + 1;</b>
+<b class="fc">&nbsp;        Mat result = new Mat(resultRows, resultCols, CvType.CV_8U);</b>
+<b class="fc">&nbsp;        int algorithm = Imgproc.TM_SQDIFF_NORMED;</b>
+<b class="fc">&nbsp;        Imgproc.matchTemplate(screenshot, template, result, algorithm, mask);</b>
+<b class="fc">&nbsp;        Core.MinMaxLocResult mmr = Core.minMaxLoc(result);</b>
+<b class="fc">&nbsp;        double res = matchAlgorithm.get(algorithm).apply(mmr);</b>
+<b class="fc">&nbsp;        double el = res == Double.POSITIVE_INFINITY ? 0 :res;</b>
+<b class="fc">&nbsp;        double actualScore = res == Double.NEGATIVE_INFINITY ? 1 : el;</b>
+<b class="fc">&nbsp;        Point p = algorithm == Imgproc.TM_SQDIFF || algorithm == Imgproc.TM_SQDIFF_NORMED ? mmr.minLoc : mmr.maxLoc;</b>
+<b class="fc">&nbsp;        if (actualScore &gt; matchScore) {</b>
+<b class="fc">&nbsp;            return new SuccessfulResult&lt;&gt;(Optional.of(new Data(takenTime, screenshot, actualScore, p)));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new FailedResult&lt;&gt;(&quot;&quot;, Optional.of(new Data(takenTime, screenshot, actualScore, p)));</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    private record Data(long takenTime, Mat screenshot, double score, Point loc) {</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

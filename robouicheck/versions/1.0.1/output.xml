@@ -1,0 +1,2635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0.1 (Python 3.11.2 on win32)" generated="2024-10-26T20:41:05.269835" rpa="false" schemaversion="5">
+<suite id="s1" name="Robot" source="G:\Projects\RoboUICheck\src\test\robot">
+<suite id="s1-s1" name="DisplayKeywordTests" source="G:\Projects\RoboUICheck\src\test\robot\DisplayKeywordTests.robot">
+<kw name="Run Keywords" owner="BuiltIn" type="SETUP">
+<kw name="Add Image Location" owner="Remote">
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<doc>Adds a location to search for images.
+This path can be relative or absolute.</doc>
+<status status="PASS" start="2024-10-26T20:41:05.393797" elapsed="0.012344"/>
+</kw>
+<kw name="Set Primary Display Reference" owner="Remote">
+<arg>PRIMARY</arg>
+<doc>Sets the primary display to the given reference name</doc>
+<status status="PASS" start="2024-10-26T20:41:05.406141" elapsed="0.002543"/>
+</kw>
+<kw name="Set Display Reference" owner="Remote">
+<arg>PRIMARY</arg>
+<arg>SMALLER_THAN</arg>
+<arg>SECONDARY</arg>
+<doc>    Sets the reference display to the given reference name
+    Options:
+     LEFT
+     RIGHT
+     ABOVE
+     BELOW
+     SMALLER_THAN
+     LARGER_THAN</doc>
+<status status="PASS" start="2024-10-26T20:41:05.408684" elapsed="0.004508"/>
+</kw>
+<kw name="Set Result Path" owner="Remote">
+<arg>${OUTPUT_DIR}</arg>
+<doc>Sets the path for where images will be saved.</doc>
+<status status="PASS" start="2024-10-26T20:41:05.413192" elapsed="0.002507"/>
+</kw>
+<arg>Add Image Location</arg>
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<arg>AND</arg>
+<arg>Set Primary Display Reference</arg>
+<arg>PRIMARY</arg>
+<arg>AND</arg>
+<arg>Set Display Reference</arg>
+<arg>PRIMARY</arg>
+<arg>SMALLER_THAN</arg>
+<arg>SECONDARY</arg>
+<arg>AND</arg>
+<arg>Set Result Path</arg>
+<arg>${OUTPUT_DIR}</arg>
+<doc>Executes all the given keywords in a sequence.</doc>
+<status status="PASS" start="2024-10-26T20:41:05.393797" elapsed="0.021902"/>
+</kw>
+<test id="s1-s1-t1" name="Test Change Monitored Displays" line="13">
+<kw name="Set Monitored Display" owner="Remote" type="SETUP">
+<arg>PRIMARY</arg>
+<doc>Set Display Reference</doc>
+<status status="PASS" start="2024-10-26T20:41:05.417204" elapsed="0.002537"/>
+</kw>
+<kw name="Set Monitored Display" owner="Remote">
+<arg>SECONDARY</arg>
+<doc>Set Display Reference</doc>
+<status status="PASS" start="2024-10-26T20:41:05.419741" elapsed="0.002000"/>
+</kw>
+<kw name="Get Selected Display Dimensions" owner="Remote">
+<msg time="2024-10-26T20:41:05.425313" level="INFO">&amp;{secondary} = { y=-2160 | x=611 | height=1440 | width=2560 }</msg>
+<var>&amp;{secondary}</var>
+<doc>Get Selected Display Dimensions</doc>
+<status status="PASS" start="2024-10-26T20:41:05.421741" elapsed="0.003572"/>
+</kw>
+<kw name="Set Monitored Display" owner="Remote">
+<arg>PRIMARY</arg>
+<doc>Set Display Reference</doc>
+<status status="PASS" start="2024-10-26T20:41:05.425313" elapsed="0.002591"/>
+</kw>
+<kw name="Get Selected Display Dimensions" owner="Remote">
+<msg time="2024-10-26T20:41:05.429831" level="INFO">&amp;{primary} = { y=0 | x=0 | height=1440 | width=5120 }</msg>
+<var>&amp;{primary}</var>
+<doc>Get Selected Display Dimensions</doc>
+<status status="PASS" start="2024-10-26T20:41:05.427904" elapsed="0.001927"/>
+</kw>
+<if>
+<branch type="IF" condition="${primary}[x] == ${secondary}[x] and ${primary}[y] == ${secondary}[y]">
+<kw name="Fail" owner="BuiltIn">
+<arg>The primary and secondary displays are the same</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:41:05.429831" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:41:05.429831" elapsed="0.001000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:41:05.429831" elapsed="0.001000"/>
+</if>
+<doc>Test the monitored area</doc>
+<status status="PASS" start="2024-10-26T20:41:05.417204" elapsed="0.013627"/>
+</test>
+<test id="s1-s1-t2" name="Test Change Monitored Display Region" line="23">
+<kw name="Set Monitored Display" owner="Remote" type="SETUP">
+<arg>PRIMARY</arg>
+<doc>Set Display Reference</doc>
+<status status="PASS" start="2024-10-26T20:41:05.430831" elapsed="0.003515"/>
+</kw>
+<kw name="Set Monitored Area" owner="Remote">
+<arg>50</arg>
+<arg>50</arg>
+<arg>100</arg>
+<arg>100</arg>
+<status status="PASS" start="2024-10-26T20:41:05.434346" elapsed="0.005598"/>
+</kw>
+<kw name="Get Selected Display Monitored Area" owner="Remote">
+<msg time="2024-10-26T20:41:05.442452" level="INFO">&amp;{area} = { y=50 | x=50 | height=100 | width=100 }</msg>
+<var>&amp;{area}</var>
+<doc>Get Selected Display Monitored Area</doc>
+<status status="PASS" start="2024-10-26T20:41:05.439944" elapsed="0.002508"/>
+</kw>
+<if>
+<branch type="IF" condition="${area}[x] != 50 or ${area}[y] != 50 or ${area}[width] != 100 or ${area}[height] != 100">
+<kw name="Fail" owner="BuiltIn">
+<arg>The selected area is not correct</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:41:05.442452" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:41:05.442452" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:41:05.442452" elapsed="0.000000"/>
+</if>
+<kw name="Reset Monitored Area" owner="Remote">
+<doc>Reset Monitored Area</doc>
+<status status="PASS" start="2024-10-26T20:41:05.442452" elapsed="0.002007"/>
+</kw>
+<kw name="Get Selected Display Monitored Area" owner="Remote">
+<msg time="2024-10-26T20:41:05.447971" level="INFO">&amp;{area} = { y=0 | x=0 | height=1440 | width=5120 }</msg>
+<var>&amp;{area}</var>
+<doc>Get Selected Display Monitored Area</doc>
+<status status="PASS" start="2024-10-26T20:41:05.445458" elapsed="0.002513"/>
+</kw>
+<if>
+<branch type="IF" condition="${area}[x] == 50 and ${area}[y] == 50 and ${area}[width] == 100 and ${area}[height] == 100">
+<kw name="Fail" owner="BuiltIn">
+<arg>The selected area is not correct</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:41:05.448476" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:41:05.448476" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:41:05.448476" elapsed="0.000000"/>
+</if>
+<doc>Test the defined region for monitoring on each screen.</doc>
+<status status="PASS" start="2024-10-26T20:41:05.430831" elapsed="0.017645"/>
+</test>
+<test id="s1-s1-t3" name="Test Set Display By Id" line="36">
+<kw name="Set Monitored Display" owner="Remote" type="SETUP">
+<arg>PRIMARY</arg>
+<doc>Set Display Reference</doc>
+<status status="PASS" start="2024-10-26T20:41:05.449484" elapsed="0.000999"/>
+</kw>
+<kw name="Set Display By Id" owner="Remote">
+<arg>0</arg>
+<doc>| variable       | default  | unit                  |
+| displayId      |   0      | integer|String        |</doc>
+<status status="PASS" start="2024-10-26T20:41:05.451988" elapsed="0.002007"/>
+</kw>
+<kw name="Get Selected Display Dimensions" owner="Remote">
+<msg time="2024-10-26T20:41:05.457138" level="INFO">&amp;{display_one} = { y=-2160 | x=611 | height=1440 | width=2560 }</msg>
+<var>&amp;{display_one}</var>
+<doc>Get Selected Display Dimensions</doc>
+<status status="PASS" start="2024-10-26T20:41:05.454997" elapsed="0.002141"/>
+</kw>
+<kw name="Set Display By Id" owner="Remote">
+<arg>1</arg>
+<doc>| variable       | default  | unit                  |
+| displayId      |   0      | integer|String        |</doc>
+<status status="PASS" start="2024-10-26T20:41:05.457138" elapsed="0.002015"/>
+</kw>
+<kw name="Get Selected Display Dimensions" owner="Remote">
+<msg time="2024-10-26T20:41:05.461160" level="INFO">&amp;{display_two} = { y=0 | x=0 | height=1440 | width=5120 }</msg>
+<var>&amp;{display_two}</var>
+<doc>Get Selected Display Dimensions</doc>
+<status status="PASS" start="2024-10-26T20:41:05.459153" elapsed="0.002007"/>
+</kw>
+<if>
+<branch type="IF" condition="${display_two} == ${display_one}">
+<kw name="Fail" owner="BuiltIn">
+<arg>The display is meant to be different from the first one</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:41:05.462158" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:41:05.461160" elapsed="0.000998"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:41:05.461160" elapsed="0.000998"/>
+</if>
+<kw name="Set Monitored Display" owner="Remote" type="TEARDOWN">
+<arg>PRIMARY</arg>
+<doc>Set Display Reference</doc>
+<status status="PASS" start="2024-10-26T20:41:05.462158" elapsed="0.001584"/>
+</kw>
+<doc>Test setting the display by id</doc>
+<status status="PASS" start="2024-10-26T20:41:05.448476" elapsed="0.015266"/>
+</test>
+<status status="PASS" start="2024-10-26T20:41:05.288401" elapsed="0.176275"/>
+</suite>
+<suite id="s1-s2" name="ImageMatchTests" source="G:\Projects\RoboUICheck\src\test\robot\ImageMatchTests.robot">
+<kw name="Run Keywords" owner="BuiltIn" type="SETUP">
+<kw name="Add Image Location" owner="Remote">
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<doc>Adds a location to search for images.
+This path can be relative or absolute.</doc>
+<status status="PASS" start="2024-10-26T20:41:05.468505" elapsed="0.002016"/>
+</kw>
+<kw name="Bring Window To Front" owner="Remote">
+<arg>Test Form</arg>
+<doc>Brings the window to the front.</doc>
+<status status="PASS" start="2024-10-26T20:41:05.470521" elapsed="0.013692"/>
+</kw>
+<kw name="Set Primary Display Reference" owner="Remote">
+<arg>PRIMARY</arg>
+<doc>Sets the primary display to the given reference name</doc>
+<status status="PASS" start="2024-10-26T20:41:05.484213" elapsed="0.002410"/>
+</kw>
+<kw name="Set Display Reference" owner="Remote">
+<arg>PRIMARY</arg>
+<arg>SMALLER_THAN</arg>
+<arg>SECONDARY</arg>
+<doc>    Sets the reference display to the given reference name
+    Options:
+     LEFT
+     RIGHT
+     ABOVE
+     BELOW
+     SMALLER_THAN
+     LARGER_THAN</doc>
+<status status="PASS" start="2024-10-26T20:41:05.486623" elapsed="0.002514"/>
+</kw>
+<kw name="Set Match Percentage" owner="Remote">
+<arg>.95</arg>
+<doc>Set Match Percentage
+Sets the minimum accepted similarity as a percentage. When attempting to find image matching, if the image
+score is below the given similarity, it will be considered a failure.</doc>
+<status status="PASS" start="2024-10-26T20:41:05.489137" elapsed="0.005097"/>
+</kw>
+<kw name="Set Result Path" owner="Remote">
+<arg>${OUTPUT_DIR}</arg>
+<doc>Sets the path for where images will be saved.</doc>
+<status status="PASS" start="2024-10-26T20:41:05.494234" elapsed="0.002012"/>
+</kw>
+<arg>Add Image Location</arg>
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<arg>AND</arg>
+<arg>Bring Window To Front</arg>
+<arg>Test Form</arg>
+<arg>AND</arg>
+<arg>Set Primary Display Reference</arg>
+<arg>PRIMARY</arg>
+<arg>AND</arg>
+<arg>Set Display Reference</arg>
+<arg>PRIMARY</arg>
+<arg>SMALLER_THAN</arg>
+<arg>SECONDARY</arg>
+<arg>AND</arg>
+<arg>Set Match Percentage</arg>
+<arg>.95</arg>
+<arg>AND</arg>
+<arg>Set Result Path</arg>
+<arg>${OUTPUT_DIR}</arg>
+<doc>Executes all the given keywords in a sequence.</doc>
+<status status="PASS" start="2024-10-26T20:41:05.468505" elapsed="0.027741"/>
+</kw>
+<test id="s1-s2-t1" name="Test Verify Image Exists" line="14">
+<kw name="Verify Image Exists" owner="Remote">
+<msg time="2024-10-26T20:41:09.979965" level="INFO" html="true">Best match score: 0.98631
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937465519_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937465519_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937465519_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>testClick.png</arg>
+<doc>Verify Image Exists</doc>
+<status status="PASS" start="2024-10-26T20:41:05.497752" elapsed="4.482213"/>
+</kw>
+<doc>Tests that the basic verify Image Exist keyword functions as expected.</doc>
+<status status="PASS" start="2024-10-26T20:41:05.496246" elapsed="4.483719"/>
+</test>
+<test id="s1-s2-t2" name="Verify Image Match Fails Properly" line="18">
+<kw name="Verify Image Does Not Exist" owner="Remote">
+<msg time="2024-10-26T20:41:14.595670" level="INFO" html="true">Best match score: 0.74979
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937469989_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937469989_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937469989_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>fail.png</arg>
+<doc>Verify Image Does Not Exist</doc>
+<status status="PASS" start="2024-10-26T20:41:09.982041" elapsed="4.613629"/>
+</kw>
+<doc>Tests that the match score resets back to original match score after a test case</doc>
+<status status="PASS" start="2024-10-26T20:41:09.981536" elapsed="4.614134"/>
+</test>
+<test id="s1-s2-t3" name="Test Stored Match Score Remains" line="22">
+<kw name="Verify Image Exists" owner="Remote">
+<msg time="2024-10-26T20:41:19.192927" level="INFO" html="true">Best match score: 0.74979
+ Needed: 0.005
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937474605_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937474605_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937474605_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>fail.png</arg>
+<arg>minMatchScore=0.005</arg>
+<doc>Verify Image Exists</doc>
+<status status="PASS" start="2024-10-26T20:41:14.596676" elapsed="4.596251"/>
+</kw>
+<kw name="Verify Image Does Not Exist" owner="Remote">
+<msg time="2024-10-26T20:41:23.760543" level="INFO" html="true">Best match score: 0.74979
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937479201_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937479201_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937479201_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>fail.png</arg>
+<doc>Verify Image Does Not Exist</doc>
+<status status="PASS" start="2024-10-26T20:41:19.193985" elapsed="4.566558"/>
+</kw>
+<doc>Tests that the match score is correctly stored and is not modified for one-time changes.</doc>
+<status status="PASS" start="2024-10-26T20:41:14.596676" elapsed="9.163867"/>
+</test>
+<test id="s1-s2-t4" name="Test Match Percentage" line="27">
+<kw name="Verify Image Exists" owner="Remote">
+<msg time="2024-10-26T20:41:28.339788" level="INFO" html="true">Best match score: 0.74979
+ Needed: 0.005
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937483768_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937483768_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937483768_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>fail.png</arg>
+<arg>minMatchScore=0.005</arg>
+<doc>Verify Image Exists</doc>
+<status status="PASS" start="2024-10-26T20:41:23.762048" elapsed="4.577740"/>
+</kw>
+<kw name="Verify Image Does Not Exist" owner="Remote">
+<msg time="2024-10-26T20:41:32.915455" level="INFO" html="true">Best match score: 0.74979
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937488346_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937488346_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937488346_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>fail.png</arg>
+<arg>minMatchScore=0.95</arg>
+<doc>Verify Image Does Not Exist</doc>
+<status status="PASS" start="2024-10-26T20:41:28.340794" elapsed="4.574661"/>
+</kw>
+<doc>Tests that the match percentage can be set and retrieved</doc>
+<status status="PASS" start="2024-10-26T20:41:23.760543" elapsed="9.154912"/>
+</test>
+<test id="s1-s2-t5" name="Test Image Mask Verification" line="32">
+<kw name="Verify Image Exists" owner="Remote">
+<msg time="2024-10-26T20:41:37.636914" level="INFO" html="true">Best match score: 0.99423
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937492921_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937492921_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937492921_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>transparencyTest.png</arg>
+<doc>Verify Image Exists</doc>
+<status status="PASS" start="2024-10-26T20:41:32.916455" elapsed="4.720459"/>
+</kw>
+<doc>Tests that the image mask verification works as expected</doc>
+<status status="PASS" start="2024-10-26T20:41:32.916455" elapsed="4.721459"/>
+</test>
+<test id="s1-s2-t6" name="Test Image Verification On Display" line="36">
+<kw name="Verify Image Does Not Exist On Display" owner="Remote">
+<msg time="2024-10-26T20:41:39.968703" level="INFO" html="true">Best match score: 0.84939
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937497645_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937497645_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937497645_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>testClick.png</arg>
+<arg>SECONDARY</arg>
+<doc>Verify Image Does Not Exist On Display</doc>
+<status status="PASS" start="2024-10-26T20:41:37.638913" elapsed="2.329790"/>
+</kw>
+<kw name="Verify Image Exists On Display" owner="Remote">
+<msg time="2024-10-26T20:41:44.326811" level="INFO" html="true">Best match score: 0.98631
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937499972_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937499972_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937499972_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>testClick.png</arg>
+<arg>PRIMARY</arg>
+<doc>Verify Image Exists On Display</doc>
+<status status="PASS" start="2024-10-26T20:41:39.968703" elapsed="4.358108"/>
+</kw>
+<doc>Basic test to demosntrate display ID referencing and Display Image Verification</doc>
+<status status="PASS" start="2024-10-26T20:41:37.637914" elapsed="6.689898"/>
+</test>
+<test id="s1-s2-t7" name="Test Image Verification On Form" line="41">
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:41:44.539023" level="INFO" html="true">Best match score: 0.98631
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937504336_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937504336_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937504336_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>testClick.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:41:44.327812" elapsed="0.211211"/>
+</kw>
+<kw name="Verify Image Does Not Exist On Window" owner="Remote">
+<msg time="2024-10-26T20:41:44.747550" level="INFO" html="true">Best match score: 0.74979
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937504548_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937504548_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937504548_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>fail.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:41:44.539023" elapsed="0.208527"/>
+</kw>
+<doc>Test form verification</doc>
+<status status="PASS" start="2024-10-26T20:41:44.327812" elapsed="0.420739"/>
+</test>
+<test id="s1-s2-t8" name="Test Image Bounds Verification" line="46">
+<kw name="Get Image Bounds" owner="Remote">
+<msg time="2024-10-26T20:41:49.099695" level="INFO" html="true">Best match score: 0.98631
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937504755_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937504755_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937504755_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<msg time="2024-10-26T20:41:49.099695" level="INFO">&amp;{bounds} = { y=42 | x=84 | height=14 | width=62 }</msg>
+<var>&amp;{bounds}</var>
+<arg>testClick.png</arg>
+<doc>Get Image Bounds</doc>
+<status status="PASS" start="2024-10-26T20:41:44.749557" elapsed="4.350138"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${bounds}</arg>
+<arg>x</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2024-10-26T20:41:49.100701" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${bounds}</arg>
+<arg>y</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2024-10-26T20:41:49.100701" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${bounds}</arg>
+<arg>width</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2024-10-26T20:41:49.100701" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${bounds}</arg>
+<arg>height</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2024-10-26T20:41:49.100701" elapsed="0.000000"/>
+</kw>
+<kw name="Get Image Bounds" owner="Remote">
+<msg time="2024-10-26T20:41:49.302233" level="INFO" html="true">Best match score: 0.98631
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509107_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509107_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509107_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Get Image Bounds</doc>
+<status status="PASS" start="2024-10-26T20:41:49.100701" elapsed="0.201532"/>
+</kw>
+<try>
+<branch type="TRY">
+<kw name="Get Image Bounds" owner="Remote">
+<msg time="2024-10-26T20:41:51.552783" level="FAIL" html="true">Best match score: 0.84939
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509305_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509305_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509305_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;
+</msg>
+<arg>testClick.png</arg>
+<arg>display=SECONDARY</arg>
+<doc>Get Image Bounds</doc>
+<status status="FAIL" start="2024-10-26T20:41:49.302739" elapsed="2.250044">*HTML* Best match score: 0.84939
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509305_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509305_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509305_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;
+</status>
+</kw>
+<kw name="Fail" owner="BuiltIn">
+<arg>Should not have gotten bounds as image does not exist on secondary display.</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:41:51.552783" elapsed="0.000000"/>
+</kw>
+<status status="FAIL" start="2024-10-26T20:41:49.302739" elapsed="2.250044">*HTML* Best match score: 0.84939
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509305_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509305_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937509305_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;
+</status>
+</branch>
+<branch type="EXCEPT">
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-10-26T20:41:51.552783" level="INFO">Test Passed</msg>
+<arg>Test Passed</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-10-26T20:41:51.552783" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:41:51.552783" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:41:49.302233" elapsed="2.250550"/>
+</try>
+<doc>Tests that the image bounds verification works as expected</doc>
+<status status="PASS" start="2024-10-26T20:41:44.748551" elapsed="6.805286"/>
+</test>
+<status status="PASS" start="2024-10-26T20:41:05.464676" elapsed="46.089161"/>
+</suite>
+<suite id="s1-s3" name="KeyboardTests" source="G:\Projects\RoboUICheck\src\test\robot\KeyboardTests.robot">
+<kw name="Run Keywords" owner="BuiltIn" type="SETUP">
+<kw name="Add Image Location" owner="Remote">
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<doc>Adds a location to search for images.
+This path can be relative or absolute.</doc>
+<status status="PASS" start="2024-10-26T20:41:51.557297" elapsed="0.002511"/>
+</kw>
+<kw name="Bring Window To Front" owner="Remote">
+<arg>Test Form</arg>
+<doc>Brings the window to the front.</doc>
+<status status="PASS" start="2024-10-26T20:41:51.559808" elapsed="0.003515"/>
+</kw>
+<kw name="Set Primary Display Reference" owner="Remote">
+<arg>PRIMARY</arg>
+<doc>Sets the primary display to the given reference name</doc>
+<status status="PASS" start="2024-10-26T20:41:51.563323" elapsed="0.002507"/>
+</kw>
+<kw name="Set Display Reference" owner="Remote">
+<arg>PRIMARY</arg>
+<arg>SMALLER_THAN</arg>
+<arg>SECONDARY</arg>
+<doc>    Sets the reference display to the given reference name
+    Options:
+     LEFT
+     RIGHT
+     ABOVE
+     BELOW
+     SMALLER_THAN
+     LARGER_THAN</doc>
+<status status="PASS" start="2024-10-26T20:41:51.565830" elapsed="0.001005"/>
+</kw>
+<kw name="Set Result Path" owner="Remote">
+<arg>${OUTPUT_DIR}</arg>
+<doc>Sets the path for where images will be saved.</doc>
+<status status="PASS" start="2024-10-26T20:41:51.566835" elapsed="0.001001"/>
+</kw>
+<arg>Add Image Location</arg>
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<arg>AND</arg>
+<arg>Bring Window To Front</arg>
+<arg>Test Form</arg>
+<arg>AND</arg>
+<arg>Set Primary Display Reference</arg>
+<arg>PRIMARY</arg>
+<arg>AND</arg>
+<arg>Set Display Reference</arg>
+<arg>PRIMARY</arg>
+<arg>SMALLER_THAN</arg>
+<arg>SECONDARY</arg>
+<arg>AND</arg>
+<arg>Set Result Path</arg>
+<arg>${OUTPUT_DIR}</arg>
+<doc>Executes all the given keywords in a sequence.</doc>
+<status status="PASS" start="2024-10-26T20:41:51.557297" elapsed="0.010539"/>
+</kw>
+<test id="s1-s3-t1" name="Test Keyboard KeyPress" line="12">
+<kw name="Click" owner="Remote">
+<msg time="2024-10-26T20:41:53.012341" level="INFO" html="true">Best match score: 0.99798
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937511577_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937511577_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937511577_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=textarea.png</arg>
+<arg>window=Test Form</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:41:51.569341" elapsed="1.443923"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>A</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.013264" elapsed="0.093438"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>B</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.107636" elapsed="0.092937"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>C</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.200573" elapsed="0.092440"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>D</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.294120" elapsed="0.090788"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>E</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.385910" elapsed="0.091686"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>F</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.477596" elapsed="0.095520"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>G</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.573116" elapsed="0.092585"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>H</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.666643" elapsed="0.091946"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>I</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.759593" elapsed="0.092926"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>J</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.852519" elapsed="0.092742"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>K</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:53.945261" elapsed="0.094706"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>L</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.040895" elapsed="0.094629"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>M</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.136452" elapsed="0.093129"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>N</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.230582" elapsed="0.093493"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>O</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.325076" elapsed="0.091173"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>P</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.417252" elapsed="0.091819"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>Q</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.510071" elapsed="0.092231"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>R</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.603220" elapsed="0.094431"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>S</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.697651" elapsed="0.091879"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>T</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.789530" elapsed="0.094447"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>U</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.883977" elapsed="0.093480"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>V</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:54.978459" elapsed="0.090740"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>W</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:55.069199" elapsed="0.093766"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>X</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:55.164018" elapsed="0.092198"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>Y</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:55.256216" elapsed="0.092545"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>Z</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:55.349750" elapsed="0.092225"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>A</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:55.441975" elapsed="0.187544"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>B</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:55.630520" elapsed="0.184826"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>C</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:55.816347" elapsed="0.186920"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>D</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:56.004269" elapsed="0.184699"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>E</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:56.189969" elapsed="0.185049"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>F</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:56.376019" elapsed="0.187149"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>G</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:56.564173" elapsed="0.185892"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>H</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:56.751065" elapsed="0.185115"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>I</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:56.937172" elapsed="0.188993"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>J</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:57.127169" elapsed="0.186957"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>K</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:57.315129" elapsed="0.186021"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>L</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:57.501150" elapsed="0.186076"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>M</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:57.687226" elapsed="0.183327"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>N</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:57.871555" elapsed="0.185558"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>O</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:58.058112" elapsed="0.184743"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>P</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:58.243796" elapsed="0.186092"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>Q</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:58.429888" elapsed="0.187050"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>R</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:58.617940" elapsed="0.185063"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>S</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:58.804005" elapsed="0.186450"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>T</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:58.990455" elapsed="0.189050"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>U</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:59.179505" elapsed="0.185841"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>V</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:59.366539" elapsed="0.185784"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>W</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:59.553456" elapsed="0.186690"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>X</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:59.741075" elapsed="0.183736"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>Y</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:41:59.925813" elapsed="0.183398"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>SHIFT</arg>
+<arg>Z</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:42:00.110215" elapsed="0.190377"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:00.460700" level="INFO" html="true">Best match score: 0.97998
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937520306_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937520306_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937520306_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>alphabet.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:00.301100" elapsed="0.159600"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>CONTROL</arg>
+<arg>A</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:42:00.460700" elapsed="0.184653"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:00.799936" level="INFO" html="true">Best match score: 0.98346
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937520650_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937520650_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937520650_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>alphabetselected.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:00.646276" elapsed="0.153660"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>BACK_SPACE</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:42:00.799936" elapsed="0.096627"/>
+</kw>
+<kw name="Verify Image Does Not Exist On Window" owner="Remote">
+<msg time="2024-10-26T20:42:01.059378" level="INFO" html="true">Best match score: 0.84211
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937520902_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937520902_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937520902_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>alphabetselected.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:00.896563" elapsed="0.162815"/>
+</kw>
+<doc>Test Keyboard KeyPress</doc>
+<status status="PASS" start="2024-10-26T20:41:51.567836" elapsed="9.492542"/>
+</test>
+<test id="s1-s3-t2" name="Test Typing" line="73">
+<kw name="Click" owner="Remote">
+<msg time="2024-10-26T20:42:01.474941" level="INFO" html="true">Best match score: 0.99799
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937521066_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937521066_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937521066_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=textarea.png</arg>
+<arg>window=Test Form</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:01.060378" elapsed="0.414563"/>
+</kw>
+<kw name="Type" owner="Remote">
+<arg>Hello world! this is a demonstration of typing with this framework.</arg>
+<doc>Types the given message</doc>
+<status status="PASS" start="2024-10-26T20:42:01.474941" elapsed="2.079384"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:03.717840" level="INFO" html="true">Best match score: 0.98617
+ Needed: 0.95
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937523559_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937523559_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937523559_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>sentence.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:03.554325" elapsed="0.163515"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>CONTROL</arg>
+<arg>A</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:42:03.717840" elapsed="0.181397"/>
+</kw>
+<kw name="Press Keys" owner="Remote">
+<arg>BACK_SPACE</arg>
+<doc>presses a set of keys, then releases them immediately afterwords.</doc>
+<status status="PASS" start="2024-10-26T20:42:03.899237" elapsed="0.091095"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:01.060378" elapsed="2.929954"/>
+</test>
+<status status="PASS" start="2024-10-26T20:41:51.555291" elapsed="12.436546"/>
+</suite>
+<suite id="s1-s4" name="MouseTests" source="G:\Projects\RoboUICheck\src\test\robot\MouseTests.robot">
+<kw name="Run Keywords" owner="BuiltIn" type="SETUP">
+<kw name="Add Image Location" owner="Remote">
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<doc>Adds a location to search for images.
+This path can be relative or absolute.</doc>
+<status status="PASS" start="2024-10-26T20:42:03.994844" elapsed="0.002076"/>
+</kw>
+<kw name="Bring Window To Front" owner="Remote">
+<arg>Test Form</arg>
+<doc>Brings the window to the front.</doc>
+<status status="PASS" start="2024-10-26T20:42:03.996920" elapsed="0.001505"/>
+</kw>
+<kw name="Set Primary Display Reference" owner="Remote">
+<arg>PRIMARY</arg>
+<doc>Sets the primary display to the given reference name</doc>
+<status status="PASS" start="2024-10-26T20:42:03.998425" elapsed="0.002006"/>
+</kw>
+<kw name="Set Display Reference" owner="Remote">
+<arg>PRIMARY</arg>
+<arg>SMALLER_THAN</arg>
+<arg>SECONDARY</arg>
+<doc>    Sets the reference display to the given reference name
+    Options:
+     LEFT
+     RIGHT
+     ABOVE
+     BELOW
+     SMALLER_THAN
+     LARGER_THAN</doc>
+<status status="PASS" start="2024-10-26T20:42:04.000431" elapsed="0.001505"/>
+</kw>
+<kw name="Set Match Percentage" owner="Remote">
+<arg>.9</arg>
+<doc>Set Match Percentage
+Sets the minimum accepted similarity as a percentage. When attempting to find image matching, if the image
+score is below the given similarity, it will be considered a failure.</doc>
+<status status="PASS" start="2024-10-26T20:42:04.001936" elapsed="0.001006"/>
+</kw>
+<kw name="Set Result Path" owner="Remote">
+<arg>${OUTPUT_DIR}</arg>
+<doc>Sets the path for where images will be saved.</doc>
+<status status="PASS" start="2024-10-26T20:42:04.002942" elapsed="0.001001"/>
+</kw>
+<arg>Add Image Location</arg>
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<arg>AND</arg>
+<arg>Bring Window To Front</arg>
+<arg>Test Form</arg>
+<arg>AND</arg>
+<arg>Set Primary Display Reference</arg>
+<arg>PRIMARY</arg>
+<arg>AND</arg>
+<arg>Set Display Reference</arg>
+<arg>PRIMARY</arg>
+<arg>SMALLER_THAN</arg>
+<arg>SECONDARY</arg>
+<arg>AND</arg>
+<arg>Set Match Percentage</arg>
+<arg>.9</arg>
+<arg>AND</arg>
+<arg>Set Result Path</arg>
+<arg>${OUTPUT_DIR}</arg>
+<doc>Executes all the given keywords in a sequence.</doc>
+<status status="PASS" start="2024-10-26T20:42:03.994844" elapsed="0.009099"/>
+</kw>
+<test id="s1-s4-t1" name="Test Move Mouse To Image" line="13">
+<kw name="Move Mouse To" owner="Remote">
+<msg time="2024-10-26T20:42:08.478826" level="INFO" html="true">Best match score: 0.98874
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937524008_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937524008_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937524008_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:04.004943" elapsed="4.473883"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:04.004943" elapsed="4.474883"/>
+</test>
+<test id="s1-s4-t2" name="Test Move Mouse To Image On Display" line="16">
+<kw name="Get Image Bounds" owner="Remote">
+<msg time="2024-10-26T20:42:12.838885" level="INFO" html="true">Best match score: 0.98879
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937528483_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937528483_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937528483_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<msg time="2024-10-26T20:42:12.838885" level="INFO">&amp;{bounds} = { y=42 | x=84 | height=14 | width=62 }</msg>
+<var>&amp;{bounds}</var>
+<arg>testClick.png</arg>
+<arg>display=PRIMARY</arg>
+<doc>Get Image Bounds</doc>
+<status status="PASS" start="2024-10-26T20:42:08.480825" elapsed="4.358060"/>
+</kw>
+<kw name="Get Display Dimensions" owner="Remote">
+<msg time="2024-10-26T20:42:12.841889" level="INFO">&amp;{display_bounds} = { y=0 | x=0 | height=1440 | width=5120 }</msg>
+<var>&amp;{display_bounds}</var>
+<arg>PRIMARY</arg>
+<doc>Get Display Dimensions</doc>
+<status status="PASS" start="2024-10-26T20:42:12.839885" elapsed="0.003022"/>
+</kw>
+<kw name="Move Mouse To" owner="Remote">
+<msg time="2024-10-26T20:42:17.198280" level="INFO" html="true">Best match score: 0.98879
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937532844_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937532844_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937532844_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>display=PRIMARY</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:12.842907" elapsed="4.355373"/>
+</kw>
+<kw name="Get Mouse Position" owner="Remote">
+<msg time="2024-10-26T20:42:17.201792" level="INFO">&amp;{mouse_position} = { y=49 | x=115 }</msg>
+<var>&amp;{mouse_position}</var>
+<doc>Returns the Mouse Position in the dictionary format {x,y}</doc>
+<status status="PASS" start="2024-10-26T20:42:17.198280" elapsed="0.003512"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:17.201792" level="INFO">${x} = 115.0</msg>
+<var>${x}</var>
+<arg>${display_bounds}[x] + ${bounds}[x] + ${bounds}[width] / 2</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:17.201792" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:17.202798" level="INFO">${y} = 49.0</msg>
+<var>${y}</var>
+<arg>${display_bounds}[y] + ${bounds}[y] + ${bounds}[height] / 2</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:17.201792" elapsed="0.001006"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:17.202798" level="INFO">${x_range} = 0.0</msg>
+<var>${x_range}</var>
+<arg>${x} - ${mouse_position}[x]</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:17.202798" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:17.202798" level="INFO">${y_range} = 0.0</msg>
+<var>${y_range}</var>
+<arg>${y} - ${mouse_position}[y]</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:17.202798" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="${x_range} &gt; 4 or ${x_range} &lt; -4 or ${y_range} &gt; 4 or ${y_range} &lt; -4">
+<kw name="Fail" owner="BuiltIn">
+<arg>Mouse did not move to the correct location</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:42:17.203798" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:42:17.203798" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:42:17.203798" elapsed="0.000000"/>
+</if>
+<kw name="Move Window" owner="Remote">
+<arg>Test Form</arg>
+<arg>x=0</arg>
+<arg>y=0</arg>
+<arg>display=SECONDARY</arg>
+<doc>Moves the window to the specified location.
+When not defined, the display will be the currently selected display.</doc>
+<status status="PASS" start="2024-10-26T20:42:17.203798" elapsed="0.019302"/>
+</kw>
+<kw name="Get Image Bounds" owner="Remote">
+<msg time="2024-10-26T20:42:19.542847" level="INFO" html="true">Best match score: 0.93364
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937537227_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937537227_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937537227_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<msg time="2024-10-26T20:42:19.542847" level="INFO">&amp;{bounds} = { y=42 | x=84 | height=14 | width=62 }</msg>
+<var>&amp;{bounds}</var>
+<arg>testClick.png</arg>
+<arg>display=SECONDARY</arg>
+<doc>Get Image Bounds</doc>
+<status status="PASS" start="2024-10-26T20:42:17.224159" elapsed="2.318688"/>
+</kw>
+<kw name="Get Display Dimensions" owner="Remote">
+<msg time="2024-10-26T20:42:19.545354" level="INFO">&amp;{display_bounds} = { y=-2160 | x=611 | height=1440 | width=2560 }</msg>
+<var>&amp;{display_bounds}</var>
+<arg>SECONDARY</arg>
+<doc>Get Display Dimensions</doc>
+<status status="PASS" start="2024-10-26T20:42:19.542847" elapsed="0.002507"/>
+</kw>
+<kw name="Move Mouse To" owner="Remote">
+<msg time="2024-10-26T20:42:22.974514" level="INFO" html="true">Best match score: 0.93364
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937539548_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937539548_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937539548_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>display=SECONDARY</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:19.545354" elapsed="3.429160"/>
+</kw>
+<kw name="Get Mouse Position" owner="Remote">
+<msg time="2024-10-26T20:42:22.977520" level="INFO">&amp;{mouse_position} = { y=-2111 | x=726 }</msg>
+<var>&amp;{mouse_position}</var>
+<doc>Returns the Mouse Position in the dictionary format {x,y}</doc>
+<status status="PASS" start="2024-10-26T20:42:22.975519" elapsed="0.002001"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:22.977520" level="INFO">${x} = 726.0</msg>
+<var>${x}</var>
+<arg>${display_bounds}[x] + ${bounds}[x] + ${bounds}[width] / 2</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:22.977520" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:22.978517" level="INFO">${y} = -2111.0</msg>
+<var>${y}</var>
+<arg>${display_bounds}[y] + ${bounds}[y] + ${bounds}[height] / 2</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:22.978517" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:22.978517" level="INFO">${x_range} = 0.0</msg>
+<var>${x_range}</var>
+<arg>${x} - ${mouse_position}[x]</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:22.978517" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:22.979514" level="INFO">${y_range} = 0.0</msg>
+<var>${y_range}</var>
+<arg>${y} - ${mouse_position}[y]</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:22.978517" elapsed="0.000997"/>
+</kw>
+<if>
+<branch type="IF" condition="${x_range} &gt; 4 or ${x_range} &lt; -4 or ${y_range} &gt; 4 or ${y_range} &lt; -4">
+<kw name="Fail" owner="BuiltIn">
+<arg>Mouse did not move to the correct location</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:42:22.979514" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:42:22.979514" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:42:22.979514" elapsed="0.000000"/>
+</if>
+<kw name="Move Window" owner="Remote" type="TEARDOWN">
+<arg>Test Form</arg>
+<arg>x=0</arg>
+<arg>y=0</arg>
+<arg>display=PRIMARY</arg>
+<doc>Moves the window to the specified location.
+When not defined, the display will be the currently selected display.</doc>
+<status status="PASS" start="2024-10-26T20:42:22.979514" elapsed="0.014578"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:08.479826" elapsed="14.514266"/>
+</test>
+<test id="s1-s4-t3" name="Test Move Mouse To Image On Window" line="43">
+<kw name="Get Image Bounds" owner="Remote">
+<msg time="2024-10-26T20:42:23.196097" level="INFO" html="true">Best match score: 0.98879
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937543000_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937543000_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937543000_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<msg time="2024-10-26T20:42:23.197095" level="INFO">&amp;{bounds} = { y=42 | x=84 | height=14 | width=62 }</msg>
+<var>&amp;{bounds}</var>
+<arg>testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Get Image Bounds</doc>
+<status status="PASS" start="2024-10-26T20:42:22.995095" elapsed="0.202000"/>
+</kw>
+<kw name="Get Display Dimensions" owner="Remote">
+<msg time="2024-10-26T20:42:23.200095" level="INFO">&amp;{display_bounds} = { y=0 | x=0 | height=1440 | width=5120 }</msg>
+<var>&amp;{display_bounds}</var>
+<arg>PRIMARY</arg>
+<doc>Get Display Dimensions</doc>
+<status status="PASS" start="2024-10-26T20:42:23.197095" elapsed="0.003000"/>
+</kw>
+<kw name="Move Mouse To" owner="Remote">
+<msg time="2024-10-26T20:42:24.527737" level="INFO" html="true">Best match score: 0.98874
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937543204_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937543204_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937543204_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:23.201094" elapsed="1.326643"/>
+</kw>
+<kw name="Get Mouse Position" owner="Remote">
+<msg time="2024-10-26T20:42:24.531251" level="INFO">&amp;{mouse_position} = { y=49 | x=115 }</msg>
+<var>&amp;{mouse_position}</var>
+<doc>Returns the Mouse Position in the dictionary format {x,y}</doc>
+<status status="PASS" start="2024-10-26T20:42:24.528737" elapsed="0.002514"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:24.531251" level="INFO">${x} = 115.0</msg>
+<var>${x}</var>
+<arg>${display_bounds}[x] + ${bounds}[x] + ${bounds}[width] / 2</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:24.531251" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:24.532250" level="INFO">${y} = 49.0</msg>
+<var>${y}</var>
+<arg>${display_bounds}[y] + ${bounds}[y] + ${bounds}[height] / 2</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:24.531251" elapsed="0.000999"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:24.532250" level="INFO">${x_range} = 0.0</msg>
+<var>${x_range}</var>
+<arg>${x} - ${mouse_position}[x]</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:24.532250" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:24.532250" level="INFO">${y_range} = 0.0</msg>
+<var>${y_range}</var>
+<arg>${y} - ${mouse_position}[y]</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:24.532250" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="${x_range} &gt; 4 or ${x_range} &lt; -4 or ${y_range} &gt; 4 or ${y_range} &lt; -4">
+<kw name="Fail" owner="BuiltIn">
+<arg>Mouse did not move to the correct location</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:42:24.533395" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:42:24.532250" elapsed="0.001145"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:42:24.532250" elapsed="0.001145"/>
+</if>
+<kw name="Move Window" owner="Remote">
+<arg>Test Form</arg>
+<arg>x=0</arg>
+<arg>y=0</arg>
+<arg>display=SECONDARY</arg>
+<doc>Moves the window to the specified location.
+When not defined, the display will be the currently selected display.</doc>
+<status status="PASS" start="2024-10-26T20:42:24.533395" elapsed="0.013059"/>
+</kw>
+<kw name="Get Image Bounds" owner="Remote">
+<msg time="2024-10-26T20:42:24.989327" level="INFO" html="true">Best match score: 0.93452
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937544550_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937544550_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937544550_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<msg time="2024-10-26T20:42:24.989327" level="INFO">&amp;{bounds} = { y=42 | x=84 | height=14 | width=62 }</msg>
+<var>&amp;{bounds}</var>
+<arg>testClick.png</arg>
+<arg>waitTime=1000</arg>
+<arg>window=Test Form</arg>
+<doc>Get Image Bounds</doc>
+<status status="PASS" start="2024-10-26T20:42:24.546454" elapsed="0.442873"/>
+</kw>
+<kw name="Get Display Dimensions" owner="Remote">
+<msg time="2024-10-26T20:42:24.992836" level="INFO">&amp;{display_bounds} = { y=-2160 | x=611 | height=1440 | width=2560 }</msg>
+<var>&amp;{display_bounds}</var>
+<arg>SECONDARY</arg>
+<doc>Get Display Dimensions</doc>
+<status status="PASS" start="2024-10-26T20:42:24.990325" elapsed="0.002511"/>
+</kw>
+<kw name="Move Mouse To" owner="Remote">
+<msg time="2024-10-26T20:42:26.547482" level="INFO" html="true">Best match score: 0.93452
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937544996_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937544996_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937544996_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:24.992836" elapsed="1.554646"/>
+</kw>
+<kw name="Get Mouse Position" owner="Remote">
+<msg time="2024-10-26T20:42:26.550995" level="INFO">&amp;{mouse_position} = { y=-2111 | x=726 }</msg>
+<var>&amp;{mouse_position}</var>
+<doc>Returns the Mouse Position in the dictionary format {x,y}</doc>
+<status status="PASS" start="2024-10-26T20:42:26.549064" elapsed="0.001931"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:26.550995" level="INFO">${x} = 726.0</msg>
+<var>${x}</var>
+<arg>${display_bounds}[x] + ${bounds}[x] + ${bounds}[width] / 2</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:26.550995" elapsed="0.001000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:26.551995" level="INFO">${y} = -2111.0</msg>
+<var>${y}</var>
+<arg>${display_bounds}[y] + ${bounds}[y] + ${bounds}[height] / 2</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:26.551995" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:26.551995" level="INFO">${x_range} = 0.0</msg>
+<var>${x_range}</var>
+<arg>${x} - ${mouse_position}[x]</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:26.551995" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-10-26T20:42:26.553088" level="INFO">${y_range} = 0.0</msg>
+<var>${y_range}</var>
+<arg>${y} - ${mouse_position}[y]</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-10-26T20:42:26.551995" elapsed="0.001093"/>
+</kw>
+<if>
+<branch type="IF" condition="${x} != ${mouse_position}[x] or ${y} != ${mouse_position}[y]">
+<kw name="Fail" owner="BuiltIn">
+<arg>Mouse did not move to the correct location</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:42:26.553088" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:42:26.553088" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:42:26.553088" elapsed="0.000000"/>
+</if>
+<kw name="Move Window" owner="Remote" type="TEARDOWN">
+<arg>Test Form</arg>
+<arg>x=0</arg>
+<arg>y=0</arg>
+<arg>display=PRIMARY</arg>
+<doc>Moves the window to the specified location.
+When not defined, the display will be the currently selected display.</doc>
+<status status="PASS" start="2024-10-26T20:42:26.553088" elapsed="0.015114"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:22.995095" elapsed="3.573107"/>
+</test>
+<test id="s1-s4-t4" name="Test Move Mouse Between Displays" line="71">
+<kw name="Move Mouse" owner="Remote">
+<arg>100</arg>
+<arg>0</arg>
+<doc>Move Mouse</doc>
+<status status="PASS" start="2024-10-26T20:42:26.568202" elapsed="0.053064"/>
+</kw>
+<kw name="Move Mouse To" owner="Remote">
+<arg>display=SECONDARY</arg>
+<arg>x=100</arg>
+<arg>y=100</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:26.621266" elapsed="0.065027"/>
+</kw>
+<kw name="Move Mouse To" owner="Remote">
+<arg>x=400</arg>
+<arg>y=400</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:26.686293" elapsed="1.241744"/>
+</kw>
+<kw name="Move Mouse To" owner="Remote">
+<arg>display=PRIMARY</arg>
+<arg>x=100</arg>
+<arg>y=100</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:27.929038" elapsed="0.216644"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:26.568202" elapsed="1.578477"/>
+</test>
+<test id="s1-s4-t5" name="Test Click Image" line="77">
+<kw name="Click" owner="Remote">
+<msg time="2024-10-26T20:42:32.635745" level="INFO" html="true">Best match score: 0.98874
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937548150_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937548150_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937548150_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:28.146679" elapsed="4.489066"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:32.826674" level="INFO" html="true">Best match score: 0.99068
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937552647_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937552647_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937552647_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>labelconfirmation.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:32.635745" elapsed="0.190929"/>
+</kw>
+<kw name="Click" owner="Remote" type="TEARDOWN">
+<msg time="2024-10-26T20:42:33.274561" level="INFO" html="true">Best match score: 0.98636
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937552831_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937552831_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937552831_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:32.826674" elapsed="0.447887"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:28.146679" elapsed="5.127882"/>
+</test>
+<test id="s1-s4-t6" name="Test Click Image On Window" line="82">
+<kw name="Click" owner="Remote">
+<msg time="2024-10-26T20:42:33.711270" level="INFO" html="true">Best match score: 0.98636
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937553280_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937553280_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937553280_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:33.275560" elapsed="0.436709"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:33.892083" level="INFO" html="true">Best match score: 0.99068
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937553717_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937553717_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937553717_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>labelconfirmation.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:33.712269" elapsed="0.179814"/>
+</kw>
+<kw name="Click" owner="Remote" type="TEARDOWN">
+<msg time="2024-10-26T20:42:34.339937" level="INFO" html="true">Best match score: 0.98636
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937553896_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937553896_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937553896_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:33.892599" elapsed="0.447338"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:33.274561" elapsed="1.065376"/>
+</test>
+<test id="s1-s4-t7" name="Test Click X Times" line="87">
+<kw name="Move Mouse To" owner="Remote">
+<msg time="2024-10-26T20:42:38.924176" level="INFO" html="true">Best match score: 0.99135
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937554344_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937554344_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937554344_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=clickCounter.png</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:34.340936" elapsed="4.583240"/>
+</kw>
+<kw name="Click" owner="Remote">
+<arg>times=2</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:38.925176" elapsed="0.241746"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:39.369181" level="INFO" html="true">Best match score: 0.99263
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937559171_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937559171_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937559171_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>two.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:39.167924" elapsed="0.201257"/>
+</kw>
+<kw name="Click" owner="Remote" type="TEARDOWN">
+<msg time="2024-10-26T20:42:40.025277" level="INFO" html="true">Best match score: 0.98874
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937559374_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937559374_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937559374_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:39.369181" elapsed="0.656096"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:34.340936" elapsed="5.685343"/>
+</test>
+<test id="s1-s4-t8" name="Test Click Location" line="93">
+<kw name="Get Window Dimensions" owner="Remote">
+<msg time="2024-10-26T20:42:40.029566" level="INFO">&amp;{dimensions} = { y=0 | x=0 | height=510 | width=585 }</msg>
+<var>&amp;{dimensions}</var>
+<arg>Test Form</arg>
+<doc>Gets the dimensions for the window requested.</doc>
+<status status="PASS" start="2024-10-26T20:42:40.026279" elapsed="0.003287"/>
+</kw>
+<kw name="Click" owner="Remote">
+<arg>x=${${dimensions}[x]+50}</arg>
+<arg>y=${${dimensions}[y]+50}</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:40.031071" elapsed="0.162980"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:40.372622" level="INFO" html="true">Best match score: 0.99068
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937560198_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937560198_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937560198_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>labelconfirmation.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:40.194994" elapsed="0.177628"/>
+</kw>
+<kw name="Click" owner="Remote" type="TEARDOWN">
+<arg>x=${${dimensions}[x]+50}</arg>
+<arg>y=${${dimensions}[y]+50}</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:40.373628" elapsed="0.129319"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:40.026279" elapsed="0.477728"/>
+</test>
+<test id="s1-s4-t9" name="Test Press And Release" line="99">
+<kw name="Move Mouse To" owner="Remote">
+<msg time="2024-10-26T20:42:45.082152" level="INFO" html="true">Best match score: 0.98980
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937560507_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937560507_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937560507_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=PAndRTest.png</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:40.504948" elapsed="4.577204"/>
+</kw>
+<kw name="Press Mouse Button" owner="Remote">
+<arg>Left</arg>
+<doc>Press Mouse Button</doc>
+<status status="PASS" start="2024-10-26T20:42:45.082152" elapsed="0.003722"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:45.280532" level="INFO" html="true">Best match score: 0.99170
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937565090_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937565090_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937565090_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>pressed.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:45.086876" elapsed="0.193656"/>
+</kw>
+<kw name="Release Mouse Button" owner="Remote">
+<arg>Left</arg>
+<doc>Release Mouse Button</doc>
+<status status="PASS" start="2024-10-26T20:42:45.280532" elapsed="0.002510"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:45.483408" level="INFO" html="true">Best match score: 0.99230
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937565287_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937565287_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937565287_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>released.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:45.283042" elapsed="0.200366"/>
+</kw>
+<kw name="Click" owner="Remote" type="TEARDOWN">
+<msg time="2024-10-26T20:42:46.157150" level="INFO" html="true">Best match score: 0.98874
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937565488_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937565488_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937565488_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:45.483408" elapsed="0.673742"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:40.504007" elapsed="5.654146"/>
+</test>
+<test id="s1-s4-t10" name="Test Wheel Up And Down" line="107">
+<kw name="Move Mouse To" owner="Remote">
+<msg time="2024-10-26T20:42:50.702797" level="INFO" html="true">Best match score: 0.98980
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937566163_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937566163_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937566163_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=PAndRTest.png</arg>
+<doc>Move Mouse To</doc>
+<status status="PASS" start="2024-10-26T20:42:46.159150" elapsed="4.543647"/>
+</kw>
+<kw name="Mouse Scroll" owner="Remote">
+<arg>1</arg>
+<doc>Mouse Scroll</doc>
+<status status="PASS" start="2024-10-26T20:42:50.703797" elapsed="0.001999"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:50.898585" level="INFO" html="true">Best match score: 0.98532
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937570710_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937570710_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937570710_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>mousedown.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:50.706798" elapsed="0.191787"/>
+</kw>
+<kw name="Mouse Scroll" owner="Remote">
+<arg>-1</arg>
+<doc>Mouse Scroll</doc>
+<status status="PASS" start="2024-10-26T20:42:50.898585" elapsed="0.003508"/>
+</kw>
+<kw name="Verify Image Exists On Window" owner="Remote">
+<msg time="2024-10-26T20:42:51.128473" level="INFO" html="true">Best match score: 0.98976
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937570906_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937570906_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937570906_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>mouseup.png</arg>
+<arg>Test Form</arg>
+<doc>Verify Image Does Not Exist On Window</doc>
+<status status="PASS" start="2024-10-26T20:42:50.902093" elapsed="0.226380"/>
+</kw>
+<kw name="Click" owner="Remote" type="TEARDOWN">
+<msg time="2024-10-26T20:42:51.814151" level="INFO" html="true">Best match score: 0.98631
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937571133_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937571133_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937571133_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:51.129473" elapsed="0.684678"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:42:46.158153" elapsed="5.655998"/>
+</test>
+<test id="s1-s4-t11" name="Click Image On Window" line="115">
+<kw name="Click" owner="Remote">
+<arg>x=100</arg>
+<arg>y=100</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:51.815660" elapsed="0.153169"/>
+</kw>
+<kw name="Click" owner="Remote">
+<arg>display=SECONDARY</arg>
+<arg>x=100</arg>
+<arg>y=100</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:51.968829" elapsed="1.245408"/>
+</kw>
+<kw name="Click" owner="Remote">
+<arg>display=PRIMARY</arg>
+<arg>x=400</arg>
+<arg>y=400</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:53.215237" elapsed="1.368316"/>
+</kw>
+<kw name="Click" owner="Remote">
+<arg>window=Test Form</arg>
+<arg>x=100</arg>
+<arg>y=150</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:54.584449" elapsed="0.326706"/>
+</kw>
+<kw name="Click" owner="Remote">
+<msg time="2024-10-26T20:42:59.416041" level="INFO" html="true">Best match score: 0.98874
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937574915_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937574915_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937574915_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:54.912145" elapsed="4.503896"/>
+</kw>
+<kw name="Click" owner="Remote">
+<msg time="2024-10-26T20:42:59.864865" level="INFO" html="true">Best match score: 0.98636
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579420_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579420_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579420_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>image=testClick.png</arg>
+<arg>window=Test Form</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="PASS" start="2024-10-26T20:42:59.417051" elapsed="0.448814"/>
+</kw>
+<try>
+<branch type="TRY">
+<kw name="Click" owner="Remote">
+<msg time="2024-10-26T20:43:01.108811" level="FAIL">com.kalynx.uitestframework.exceptions.MouseException: *HTML* Best match score: 0.66462
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579869_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579869_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579869_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;
+</msg>
+<arg>image=testClick.png</arg>
+<arg>display=SECONDARY</arg>
+<doc>Simulates a Mouse click
+Available options are:
+ - LEFT
+ - MIDDLE
+ - RIGHT</doc>
+<status status="FAIL" start="2024-10-26T20:42:59.865865" elapsed="1.242946">com.kalynx.uitestframework.exceptions.MouseException: *HTML* Best match score: 0.66462
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579869_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579869_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579869_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;
+</status>
+</kw>
+<kw name="Fail" owner="BuiltIn">
+<arg>This image should not have been visible</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:43:01.108811" elapsed="0.000000"/>
+</kw>
+<status status="FAIL" start="2024-10-26T20:42:59.865865" elapsed="1.242946">com.kalynx.uitestframework.exceptions.MouseException: *HTML* Best match score: 0.66462
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579869_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579869_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937579869_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;
+</status>
+</branch>
+<branch type="EXCEPT">
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-10-26T20:43:01.108811" level="INFO">Test Passed</msg>
+<arg>Test Passed</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.108811" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:43:01.108811" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:42:59.865865" elapsed="1.242946"/>
+</try>
+<status status="PASS" start="2024-10-26T20:42:51.815660" elapsed="9.294152"/>
+</test>
+<status status="PASS" start="2024-10-26T20:42:03.991837" elapsed="57.117975"/>
+</suite>
+<suite id="s1-s5" name="OcrKeywordsTest" source="G:\Projects\RoboUICheck\src\test\robot\OcrKeywordsTest.robot">
+<kw name="Add Image Location" owner="Remote" type="SETUP">
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<doc>Adds a location to search for images.
+This path can be relative or absolute.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.113656" elapsed="0.002001"/>
+</kw>
+<test id="s1-s5-t1" name="Test Read Text From Form" line="9">
+<kw name="Get Text" owner="Remote">
+<msg time="2024-10-26T20:43:01.286412" level="INFO">${text} = 84 Test Form
+
+Test Click
+
+Text Area
+
+Test2
+
+Click Counter.
+
+PANdRTest
+
+</msg>
+<var>${text}</var>
+<arg>window=Test Form</arg>
+<doc>Returns all the text read from on the screen
+Based on the parameters provided, the words will be extracted from the display, window, or a specific region.
+The dimensions of the region can be specified using the x, y, width, and height parameters and act as offsets from the top-left corner of the display or window.
+All options are optional, but where a dimension is provided, all dimensions must also be provided.
+Display and window cannot be defined at the same time.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.115657" elapsed="0.170755"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${text}</arg>
+<arg>Test Click</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.286412" elapsed="0.001006"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${text}</arg>
+<arg>Text Area</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.287418" elapsed="0.000000"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${text}</arg>
+<arg>Test2</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.287418" elapsed="0.000000"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${text}</arg>
+<arg>Click Counter.</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.287418" elapsed="0.001001"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${text}</arg>
+<arg>PANdRTest</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.288419" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:43:01.115657" elapsed="0.172762"/>
+</test>
+<test id="s1-s5-t2" name="Test Get Words From Form" line="17">
+<kw name="Get Words" owner="Remote">
+<msg time="2024-10-26T20:43:01.434478" level="INFO">${words} = [{'confidence': 77.09296, 'y': 8.0, 'x': 16.0, 'height': 15.0, 'width': 72.0, 'text': '84 Test Form'}, {'confidence': 58.25859, 'y': 45.0, 'x': 87.0, 'height': 9.0, 'width': 56.0, 'text': 'Test Click'...</msg>
+<var>${words}</var>
+<arg>window=Test Form</arg>
+<doc>Gets all the words found on the display in a format containing the name of the word and its location.
+Based on the parameters provided, the words will be extracted from the display, window, or a specific region.
+The dimensions of the region can be specified using the x, y, width, and height parameters and act as offsets from the top-left corner of the display or window.
+All options are optional, but where a dimension is provided, all dimensions must also be provided.
+Display and window cannot be defined at the same time.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.289418" elapsed="0.145060"/>
+</kw>
+<status status="PASS" start="2024-10-26T20:43:01.289418" elapsed="0.145060"/>
+</test>
+<status status="PASS" start="2024-10-26T20:43:01.110812" elapsed="0.324666"/>
+</suite>
+<suite id="s1-s6" name="WindowKeywordTests" source="G:\Projects\RoboUICheck\src\test\robot\WindowKeywordTests.robot">
+<kw name="Run Keywords" owner="BuiltIn" type="SETUP">
+<kw name="Add Image Location" owner="Remote">
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<doc>Adds a location to search for images.
+This path can be relative or absolute.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.439474" elapsed="0.001002"/>
+</kw>
+<kw name="Set Primary Display Reference" owner="Remote">
+<arg>PRIMARY</arg>
+<doc>Sets the primary display to the given reference name</doc>
+<status status="PASS" start="2024-10-26T20:43:01.440476" elapsed="0.003043"/>
+</kw>
+<kw name="Set Display Reference" owner="Remote">
+<arg>PRIMARY</arg>
+<arg>SMALLER_THAN</arg>
+<arg>SECONDARY</arg>
+<doc>    Sets the reference display to the given reference name
+    Options:
+     LEFT
+     RIGHT
+     ABOVE
+     BELOW
+     SMALLER_THAN
+     LARGER_THAN</doc>
+<status status="PASS" start="2024-10-26T20:43:01.443519" elapsed="0.001006"/>
+</kw>
+<kw name="Set Monitored Display" owner="Remote">
+<arg>PRIMARY</arg>
+<doc>Set Display Reference</doc>
+<status status="PASS" start="2024-10-26T20:43:01.444525" elapsed="0.001001"/>
+</kw>
+<kw name="Set Result Path" owner="Remote">
+<arg>${OUTPUT_DIR}</arg>
+<doc>Sets the path for where images will be saved.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.445526" elapsed="0.001999"/>
+</kw>
+<arg>Add Image Location</arg>
+<arg>G:\\Projects\\RoboUICheck\\src\\test\\robot/</arg>
+<arg>AND</arg>
+<arg>Set Primary Display Reference</arg>
+<arg>PRIMARY</arg>
+<arg>AND</arg>
+<arg>Set Display Reference</arg>
+<arg>PRIMARY</arg>
+<arg>SMALLER_THAN</arg>
+<arg>SECONDARY</arg>
+<arg>AND</arg>
+<arg>Set Monitored Display</arg>
+<arg>PRIMARY</arg>
+<arg>AND</arg>
+<arg>Set Result Path</arg>
+<arg>${OUTPUT_DIR}</arg>
+<doc>Executes all the given keywords in a sequence.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.439474" elapsed="0.008051"/>
+</kw>
+<test id="s1-s6-t1" name="Test Window Move" line="13">
+<kw name="Get Window Dimensions" owner="Remote">
+<msg time="2024-10-26T20:43:01.450525" level="INFO">&amp;{dimensions} = { y=0 | x=0 | height=510 | width=585 }</msg>
+<var>&amp;{dimensions}</var>
+<arg>Test Form</arg>
+<doc>Gets the dimensions for the window requested.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.447525" elapsed="0.003000"/>
+</kw>
+<kw name="Move Window" owner="Remote">
+<arg>Test Form</arg>
+<arg>100</arg>
+<arg>200</arg>
+<doc>Moves the window to the specified location.
+When not defined, the display will be the currently selected display.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.450525" elapsed="0.008038"/>
+</kw>
+<kw name="Get Window Dimensions" owner="Remote">
+<msg time="2024-10-26T20:43:01.460563" level="INFO">&amp;{new_dimensions} = { y=200 | x=100 | height=510 | width=585 }</msg>
+<var>&amp;{new_dimensions}</var>
+<arg>Test Form</arg>
+<doc>Gets the dimensions for the window requested.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.458563" elapsed="0.002000"/>
+</kw>
+<if>
+<branch type="IF" condition="${${dimensions}[x] + 100} != ${new_dimensions}[x] and ${${dimensions}[y] + 200} != ${new_dimensions}[y]">
+<kw name="Fail" owner="BuiltIn">
+<arg>Window did not move correctly.</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:43:01.462067" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:43:01.460563" elapsed="0.001504"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:43:01.460563" elapsed="0.001504"/>
+</if>
+<if>
+<branch type="IF" condition="${dimensions}[width] != ${new_dimensions}[width] and ${dimensions}[height] != ${new_dimensions}[height]">
+<kw name="Fail" owner="BuiltIn">
+<arg>Window width and height should not have moved.</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:43:01.462067" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:43:01.462067" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:43:01.462067" elapsed="0.000000"/>
+</if>
+<kw name="Move Window" owner="Remote" type="TEARDOWN">
+<arg>Test Form</arg>
+<arg>-100</arg>
+<arg>-200</arg>
+<doc>Moves the window to the specified location.
+When not defined, the display will be the currently selected display.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.462067" elapsed="0.008539"/>
+</kw>
+<doc>Verify that the window can be moved</doc>
+<status status="PASS" start="2024-10-26T20:43:01.447525" elapsed="0.023081"/>
+</test>
+<test id="s1-s6-t2" name="Test Move Window To Another Screen" line="27">
+<kw name="Move Window" owner="Remote">
+<arg>Test Form</arg>
+<arg>0</arg>
+<arg>0</arg>
+<arg>SECONDARY</arg>
+<doc>Moves the window to the specified location.
+When not defined, the display will be the currently selected display.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.470606" elapsed="0.013716"/>
+</kw>
+<kw name="Get Display Dimensions" owner="Remote">
+<msg time="2024-10-26T20:43:01.486837" level="INFO">&amp;{display} = { y=-2160 | x=611 | height=1440 | width=2560 }</msg>
+<var>&amp;{display}</var>
+<arg>SECONDARY</arg>
+<doc>Get Display Dimensions</doc>
+<status status="PASS" start="2024-10-26T20:43:01.484322" elapsed="0.002515"/>
+</kw>
+<kw name="Get Window Dimensions" owner="Remote">
+<msg time="2024-10-26T20:43:01.489834" level="INFO">&amp;{dimensions} = { y=-2160 | x=611 | height=765 | width=878 }</msg>
+<var>&amp;{dimensions}</var>
+<arg>Test Form</arg>
+<doc>Gets the dimensions for the window requested.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.486837" elapsed="0.002997"/>
+</kw>
+<if>
+<branch type="IF" condition="${dimensions}[x] != ${display}[x] and ${dimensions}[y] != ${display}[y]">
+<kw name="Fail" owner="BuiltIn">
+<arg>Window did not move to the secondary display.</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:43:01.490835" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:43:01.490835" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:43:01.490835" elapsed="0.000000"/>
+</if>
+<kw name="Move Window" owner="Remote">
+<arg>Test Form</arg>
+<arg>0</arg>
+<arg>0</arg>
+<arg>PRIMARY</arg>
+<doc>Moves the window to the specified location.
+When not defined, the display will be the currently selected display.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.490835" elapsed="0.015678"/>
+</kw>
+<kw name="Get Display Dimensions" owner="Remote">
+<msg time="2024-10-26T20:43:01.508510" level="INFO">${display} = {'y': 0, 'x': 0, 'height': 1440, 'width': 5120}</msg>
+<var>${display}</var>
+<arg>PRIMARY</arg>
+<doc>Get Display Dimensions</doc>
+<status status="PASS" start="2024-10-26T20:43:01.506513" elapsed="0.001997"/>
+</kw>
+<kw name="Get Window Dimensions" owner="Remote">
+<msg time="2024-10-26T20:43:01.512017" level="INFO">&amp;{dimensions} = { y=0 | x=0 | height=510 | width=585 }</msg>
+<var>&amp;{dimensions}</var>
+<arg>Test Form</arg>
+<doc>Gets the dimensions for the window requested.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.509511" elapsed="0.002506"/>
+</kw>
+<if>
+<branch type="IF" condition="${dimensions}[x] != ${display}[x] and ${dimensions}[y] != ${display}[y]">
+<kw name="Fail" owner="BuiltIn">
+<arg>Window did not move to the primary display.</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:43:01.512017" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:43:01.512017" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:43:01.512017" elapsed="0.000000"/>
+</if>
+<status status="PASS" start="2024-10-26T20:43:01.470606" elapsed="0.042930"/>
+</test>
+<test id="s1-s6-t3" name="Test Resize Window" line="41">
+<kw name="Get Window Dimensions" owner="Remote">
+<msg time="2024-10-26T20:43:01.517542" level="INFO">&amp;{dimensions} = { y=0 | x=0 | height=510 | width=585 }</msg>
+<var>&amp;{dimensions}</var>
+<arg>Test Form</arg>
+<doc>Gets the dimensions for the window requested.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.513536" elapsed="0.004006"/>
+</kw>
+<kw name="Resize Window" owner="Remote">
+<arg>Test Form</arg>
+<arg>500</arg>
+<arg>500</arg>
+<doc>Resize Window
+Resizes the specified window</doc>
+<status status="PASS" start="2024-10-26T20:43:01.517542" elapsed="0.013043"/>
+</kw>
+<kw name="Get Window Dimensions" owner="Remote">
+<msg time="2024-10-26T20:43:01.535609" level="INFO">&amp;{new_dimensions} = { y=0 | x=0 | height=500 | width=500 }</msg>
+<var>&amp;{new_dimensions}</var>
+<arg>Test Form</arg>
+<doc>Gets the dimensions for the window requested.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.530585" elapsed="0.005024"/>
+</kw>
+<if>
+<branch type="IF" condition="${dimensions}[x] != ${new_dimensions}[x] and ${dimensions}[y] != ${new_dimensions}[y]">
+<kw name="Fail" owner="BuiltIn">
+<arg>Window should not have moved.</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:43:01.536609" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:43:01.536609" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:43:01.535609" elapsed="0.001000"/>
+</if>
+<if>
+<branch type="IF" condition="${new_dimensions}[width] != 500 and ${new_dimensions}[height] != 500">
+<kw name="Fail" owner="BuiltIn">
+<arg>Window did not resize correctly.</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2024-10-26T20:43:01.536609" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-10-26T20:43:01.536609" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-10-26T20:43:01.536609" elapsed="0.000000"/>
+</if>
+<kw name="Run Keywords" owner="BuiltIn" type="TEARDOWN">
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2024-10-26T20:43:02.537863" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.537609" elapsed="1.000254"/>
+</kw>
+<kw name="Resize Window" owner="Remote">
+<arg>Test Form</arg>
+<arg>${dimensions}[width]</arg>
+<arg>${dimensions}[height]</arg>
+<doc>Resize Window
+Resizes the specified window</doc>
+<status status="PASS" start="2024-10-26T20:43:02.537863" elapsed="0.010867"/>
+</kw>
+<arg>Sleep</arg>
+<arg>1s</arg>
+<arg>AND</arg>
+<arg>Resize Window</arg>
+<arg>Test Form</arg>
+<arg>${dimensions}[width]</arg>
+<arg>${dimensions}[height]</arg>
+<doc>Executes all the given keywords in a sequence.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.536609" elapsed="1.012121"/>
+</kw>
+<doc>Verify that a window can be resized.</doc>
+<status status="PASS" start="2024-10-26T20:43:01.513536" elapsed="1.035194"/>
+</test>
+<test id="s1-s6-t4" name="Test Get All Windows" line="56">
+<kw name="Get All Available Windows" owner="Remote">
+<msg time="2024-10-26T20:43:02.555754" level="INFO">@{windows} = [ Task Switching | Battery Meter | Network Flyout | System tray overflow window. | Menu | Test Form | Blocking Form | D3DFocusWindow | theAwtToolkitWindow | RoboUICheck – MonitorException.java | Cover...</msg>
+<var>@{windows}</var>
+<doc>Gets all available windows, minimized or maximized.</doc>
+<status status="PASS" start="2024-10-26T20:43:02.549730" elapsed="0.006024"/>
+</kw>
+<kw name="List Should Contain Value" owner="Collections">
+<arg>${windows}</arg>
+<arg>Test Form</arg>
+<doc>Fails if the ``value`` is not found from ``list``.</doc>
+<status status="PASS" start="2024-10-26T20:43:02.555754" elapsed="0.001507"/>
+</kw>
+<doc>Tests that windows are returned</doc>
+<status status="PASS" start="2024-10-26T20:43:02.549730" elapsed="0.007531"/>
+</test>
+<test id="s1-s6-t5" name="Test Bring Window To Front" line="61">
+<kw name="Bring Window To Front" owner="Remote">
+<arg>Blocking Form</arg>
+<doc>Brings the window to the front.</doc>
+<status status="PASS" start="2024-10-26T20:43:02.558267" elapsed="0.000999"/>
+</kw>
+<kw name="Verify Image Does Not Exist" owner="Remote">
+<msg time="2024-10-26T20:43:06.944409" level="INFO" html="true">Best match score: 0.89643
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937582562_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937582562_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937582562_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>testClick.png</arg>
+<doc>Verify Image Does Not Exist</doc>
+<status status="PASS" start="2024-10-26T20:43:02.560267" elapsed="4.384142"/>
+</kw>
+<kw name="Bring Window To Front" owner="Remote">
+<arg>Test Form</arg>
+<doc>Brings the window to the front.</doc>
+<status status="PASS" start="2024-10-26T20:43:06.945407" elapsed="0.003000"/>
+</kw>
+<kw name="Verify Image Exists" owner="Remote">
+<msg time="2024-10-26T20:43:11.339522" level="INFO" html="true">Best match score: 0.98636
+ Needed: 0.9
+ &lt;table&gt;
+     &lt;tr&gt;
+         &lt;td&gt;Best Match&lt;/td&gt;
+         &lt;td&gt;Wanted&lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+         &lt;td&gt;&lt;a href="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937586951_screenshot.jpg"&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937586951_screenshot.jpg" height="100" width="100"&gt;&lt;/img&gt;&lt;/a&gt;&lt;/td&gt;
+         &lt;td&gt;&lt;img src="G:\Projects\RoboUICheck\src\test\robot\image_results\1729937586951_expected.jpg"&gt;&lt;/img&gt;&lt;/td&gt;
+     &lt;/tr&gt;
+ &lt;/table&gt;</msg>
+<arg>testClick.png</arg>
+<doc>Verify Image Exists</doc>
+<status status="PASS" start="2024-10-26T20:43:06.949407" elapsed="4.390115"/>
+</kw>
+<kw name="Bring Window To Front" owner="Remote" type="TEARDOWN">
+<arg>Test Form</arg>
+<doc>Brings the window to the front.</doc>
+<status status="PASS" start="2024-10-26T20:43:11.340520" elapsed="0.001505"/>
+</kw>
+<doc>Tests that a window can be brought to the front</doc>
+<status status="PASS" start="2024-10-26T20:43:02.557261" elapsed="8.786294"/>
+</test>
+<status status="PASS" start="2024-10-26T20:43:01.436475" elapsed="9.907080"/>
+</suite>
+<status status="PASS" start="2024-10-26T20:41:05.270836" elapsed="126.073725"/>
+</suite>
+<statistics>
+<total>
+<stat pass="31" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="31" fail="0" skip="0" id="s1" name="Robot">Robot</stat>
+<stat pass="3" fail="0" skip="0" id="s1-s1" name="DisplayKeywordTests">Robot.DisplayKeywordTests</stat>
+<stat pass="8" fail="0" skip="0" id="s1-s2" name="ImageMatchTests">Robot.ImageMatchTests</stat>
+<stat pass="2" fail="0" skip="0" id="s1-s3" name="KeyboardTests">Robot.KeyboardTests</stat>
+<stat pass="11" fail="0" skip="0" id="s1-s4" name="MouseTests">Robot.MouseTests</stat>
+<stat pass="2" fail="0" skip="0" id="s1-s5" name="OcrKeywordsTest">Robot.OcrKeywordsTest</stat>
+<stat pass="5" fail="0" skip="0" id="s1-s6" name="WindowKeywordTests">Robot.WindowKeywordTests</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

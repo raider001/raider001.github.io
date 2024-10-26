@@ -1,0 +1,269 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DisplayKeywords</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.keywords</a>
+</div>
+
+<h1>Coverage Summary for Class: DisplayKeywords (com.kalynx.uitestframework.keywords)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DisplayKeywords</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.8%
+  </span>
+  <span class="absValue">
+    (15/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (27/30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.keywords;
+&nbsp;
+&nbsp;import com.kalynx.uitestframework.DI;
+&nbsp;import com.kalynx.uitestframework.controller.DisplayManager;
+&nbsp;import com.kalynx.uitestframework.data.DisplayAttributes;
+&nbsp;import com.kalynx.uitestframework.data.RelativeEnum;
+&nbsp;import com.kalynx.uitestframework.exceptions.DisplayNotFoundException;
+&nbsp;import org.robotframework.javalib.annotation.ArgumentNames;
+&nbsp;import org.robotframework.javalib.annotation.RobotKeyword;
+&nbsp;import org.robotframework.javalib.annotation.RobotKeywords;
+&nbsp;
+&nbsp;import java.awt.Rectangle;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;@RobotKeywords
+<b class="fc">&nbsp;public class DisplayKeywords {</b>
+&nbsp;    public static final String WIDTH = &quot;width&quot;;
+<b class="fc">&nbsp;    private static final DisplayManager DISPLAY_MANAGER = DI.getInstance().getDependency(DisplayManager.class);</b>
+&nbsp;    public static final String HEIGHT = &quot;height&quot;;
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Sets the primary display to the given reference name
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;referenceName&quot;})
+&nbsp;    public void setPrimaryDisplayReference(String referenceName) {
+<b class="fc">&nbsp;        DISPLAY_MANAGER.setPrimaryReference(referenceName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            | variable       | default  | unit                  |
+&nbsp;            | displayId      |   0      | integer|String        |
+&nbsp;                        
+&nbsp;            Sets the display to look at.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;displayId&quot;})
+&nbsp;    public void setDisplayById(int display) {
+<b class="fc">&nbsp;        DISPLAY_MANAGER.setDisplay(display);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;                Sets the reference display to the given reference name
+&nbsp;                Options:
+&nbsp;                 LEFT
+&nbsp;                 RIGHT
+&nbsp;                 ABOVE
+&nbsp;                 BELOW
+&nbsp;                 SMALLER_THAN
+&nbsp;                 LARGER_THAN
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;originReference&quot;, &quot;relativeState&quot;, &quot;newReferenceName&quot;})
+&nbsp;    public void setDisplayReference(String originReference, String relativeState, String newReferenceName) {
+&nbsp;
+<b class="fc">&nbsp;        RelativeEnum e = RelativeEnum.valueOf(relativeState.toUpperCase());</b>
+<b class="fc">&nbsp;        DISPLAY_MANAGER.setReference(newReferenceName)</b>
+<b class="fc">&nbsp;                .relative(e)</b>
+<b class="fc">&nbsp;                .of(originReference);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword
+&nbsp;    @ArgumentNames({&quot;x&quot;, &quot;y&quot;, WIDTH, HEIGHT})
+&nbsp;    public void setMonitoredArea(int x, int y, int width, int height) {
+<b class="fc">&nbsp;        DISPLAY_MANAGER.setCaptureRegion(new Rectangle(x, y, width, height));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Reset Monitored Area
+&nbsp;                        
+&nbsp;            Resets the monitored area for the selected display to the full display.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    public void resetMonitoredArea() {
+<b class="fc">&nbsp;        DisplayAttributes attr = DISPLAY_MANAGER.getSelectedDisplay();</b>
+<b class="fc">&nbsp;        DISPLAY_MANAGER.setDisplayRegion(attr.displayId(), 0, 0, attr.width(), attr.height());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Set Monitored Area For Display Id
+&nbsp;            Sets the capture region for the currently selected display.
+&nbsp;
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;displayId&quot;, &quot;x&quot;, &quot;y&quot;, WIDTH, HEIGHT})
+&nbsp;    public void setMonitoredAreaForDisplayId(int displayId, int x, int y, int width, int height) {
+<b class="fc">&nbsp;        DISPLAY_MANAGER.setDisplayRegion(displayId,x,y,width,height);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Reset Monitored Area Region For ID
+&nbsp;                        
+&nbsp;            Resets the monitored area for the selected display to the full display.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;displayId&quot;})
+&nbsp;    public void resetMonitoredAreaForId(int displayId) {
+<b class="fc">&nbsp;        DisplayAttributes attr = DISPLAY_MANAGER.getDisplay(displayId);</b>
+<b class="fc">&nbsp;        Rectangle displayRegion = new Rectangle(0, 0, attr.width(), attr.height());</b>
+<b class="fc">&nbsp;        DISPLAY_MANAGER.setCaptureRegion(displayRegion);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Set Monitored Area For Display
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;displayReference&quot;, &quot;x&quot;, &quot;y&quot;, WIDTH, HEIGHT})
+&nbsp;    public void setMonitoredAreaForDisplay(String displayReference, int x, int y, int width, int height) throws DisplayNotFoundException {
+<b class="fc">&nbsp;        DisplayAttributes attr = DISPLAY_MANAGER.getDisplay(displayReference);</b>
+<b class="fc">&nbsp;        DISPLAY_MANAGER.setDisplayRegion(attr.displayId(),x,y,width,height);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            ResetMonitoredAreaForDisplay
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;displayReference&quot;})
+&nbsp;    public void resetMonitoredAreaForDisplay(String displayReference) throws DisplayNotFoundException {
+<b class="fc">&nbsp;        DisplayAttributes attr = DISPLAY_MANAGER.getDisplay(displayReference);</b>
+<b class="fc">&nbsp;        Rectangle displayRegion = new Rectangle(0, 0, attr.width(), attr.height());</b>
+<b class="fc">&nbsp;        DISPLAY_MANAGER.setCaptureRegion(displayRegion);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Set Display Reference
+&nbsp;                        
+&nbsp;            | variable       | default  | unit                  |
+&nbsp;            | display        |   N/A    | string                |
+&nbsp;                        
+&nbsp;            Sets the display to look at.
+&nbsp;            &quot;&quot;&quot;
+&nbsp;    )
+&nbsp;    @ArgumentNames({&quot;display&quot;})
+&nbsp;    public void setMonitoredDisplay(String display) throws DisplayNotFoundException {
+<b class="fc">&nbsp;        DISPLAY_MANAGER.setDisplay(display);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Get Selected Display Dimensions
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    public Map&lt;String, Integer&gt; getSelectedDisplayDimensions() {
+<b class="fc">&nbsp;        DisplayAttributes r = DISPLAY_MANAGER.getSelectedDisplay();</b>
+<b class="fc">&nbsp;       return Map.of(&quot;x&quot;, r.x(), &quot;y&quot;, r.y(), WIDTH, r.width(), HEIGHT, r.height());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Get Selected Display Monitored Area
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    public Map&lt;String, Integer&gt; getSelectedDisplayMonitoredArea() {
+<b class="fc">&nbsp;        Rectangle r = DISPLAY_MANAGER.getSelectedDisplayRegion().displayRegion();</b>
+<b class="fc">&nbsp;        return Map.of(&quot;x&quot;, r.x, &quot;y&quot;, r.y, WIDTH, r.width, HEIGHT, r.height);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Get Display Dimensions
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames(&quot;display&quot;)
+&nbsp;    public Map&lt;String, Integer&gt; getDisplayDimensions(String display) throws DisplayNotFoundException {
+<b class="fc">&nbsp;        DisplayAttributes r = DISPLAY_MANAGER.getDisplay(display);</b>
+<b class="fc">&nbsp;        return Map.of(&quot;x&quot;, r.x(), &quot;y&quot;, r.y(), WIDTH, r.width(), HEIGHT, r.height());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Get Display Monitored Area
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames(&quot;display&quot;)
+&nbsp;    public Map&lt;String, Integer&gt; getDisplayMonitoredArea(String display) throws DisplayNotFoundException {
+<b class="nc">&nbsp;        DisplayAttributes attr = DISPLAY_MANAGER.getDisplay(display);</b>
+<b class="nc">&nbsp;        Rectangle r = DISPLAY_MANAGER.getDisplayDisplayRegion(attr).displayRegion();</b>
+<b class="nc">&nbsp;        return Map.of(&quot;x&quot;, r.x, &quot;y&quot;, r.y, WIDTH, r.width, HEIGHT, r.height);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

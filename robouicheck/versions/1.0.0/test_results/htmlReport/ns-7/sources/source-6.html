@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > SettingsKeywords</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.keywords</a>
+</div>
+
+<h1>Coverage Summary for Class: SettingsKeywords (com.kalynx.uitestframework.keywords)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SettingsKeywords</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.9%
+  </span>
+  <span class="absValue">
+    (10/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.keywords;
+&nbsp;
+&nbsp;import com.kalynx.uitestframework.DI;
+&nbsp;import com.kalynx.uitestframework.controller.KeyboardController;
+&nbsp;import com.kalynx.uitestframework.controller.Settings;
+&nbsp;import com.kalynx.uitestframework.screen.CvMonitor;
+&nbsp;import org.robotframework.javalib.annotation.ArgumentNames;
+&nbsp;import org.robotframework.javalib.annotation.RobotKeyword;
+&nbsp;import org.robotframework.javalib.annotation.RobotKeywords;
+&nbsp;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.time.Duration;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RobotKeywords
+<b class="fc">&nbsp;public class SettingsKeywords {</b>
+&nbsp;
+<b class="fc">&nbsp;    private final Settings settings = DI.getInstance().getDependency(Settings.class);</b>
+<b class="fc">&nbsp;    private final CvMonitor CV_MONITOR = DI.getInstance().getDependency(CvMonitor.class);</b>
+<b class="fc">&nbsp;    private final KeyboardController KEYBOARD_CONTROLLER = DI.getInstance().getDependency(KeyboardController.class);</b>
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Set Timeout Time
+&nbsp;            Sets the timeout time for the monitor to look for an image in milliseconds.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;timeoutTime&quot;})
+&nbsp;    public void setTimeoutTime(int timeoutTime) {
+<b class="fc">&nbsp;        settings.setTimeout(Duration.ofMillis(timeoutTime));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Set Poll Rate
+&nbsp;            Sets the frequency the monitor will poll for an image in milliseconds.
+&nbsp;            Note that it is not recommended to set this value below 100ms as it will attempt to poll at the given rate,
+&nbsp;            but cannot be guarranteed due to potential system limitations.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;pollRate&quot;})
+&nbsp;    public void setPollRate(int pollRate) throws Exception {
+<b class="fc">&nbsp;        settings.setPollRate(Duration.ofMillis(pollRate));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Returns all the paths that will be searched for given images.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    public List&lt;String&gt; getImagePaths() {
+<b class="nc">&nbsp;        return CV_MONITOR.getImagePaths();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Sets the path for where images will be saved.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;path&quot;})
+&nbsp;    public void setResultPath(String path) {
+<b class="fc">&nbsp;        CV_MONITOR.setResultsLocation(Path.of(path, &quot;image_results&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Set Match Percentage
+&nbsp;            Sets the minimum accepted similarity as a percentage. When attempting to find image matching, if the image
+&nbsp;            score is below the given similarity, it will be considered a failure.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;minSimilarity&quot;})
+&nbsp;    public void setMatchPercentage(double minSimilarity) throws Exception {
+<b class="fc">&nbsp;        settings.setMatchScore(minSimilarity);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Adds a location to search for images.
+&nbsp;            This path can be relative or absolute.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;imageLocation&quot;})
+&nbsp;    public void addImageLocation(String imageLocation) {
+<b class="fc">&nbsp;        CV_MONITOR.addImagePath(imageLocation);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Set Keystroke Speed
+&nbsp;            Sets the delay between each keystroke.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;delaySpeed&quot;})
+&nbsp;    public void setKeystrokeSpeed(int delaySpeed) {
+<b class="fc">&nbsp;        KEYBOARD_CONTROLLER.setTypeDelay(Duration.ofMillis(delaySpeed));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

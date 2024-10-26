@@ -1,0 +1,361 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ArgParser</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.arg</a>
+</div>
+
+<h1>Coverage Summary for Class: ArgParser (com.kalynx.uitestframework.arg)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArgParser</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.7%
+  </span>
+  <span class="absValue">
+    (8/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.6%
+  </span>
+  <span class="absValue">
+    (55/99)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ArgParser$Arg</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.1%
+  </span>
+  <span class="absValue">
+    (31/36)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    85%
+  </span>
+  <span class="absValue">
+    (17/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63.7%
+  </span>
+  <span class="absValue">
+    (86/135)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.arg;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.function.Consumer;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;public class ArgParser {
+&nbsp;
+<b class="fc">&nbsp;    private final Logger LOGGER = LoggerFactory.getLogger(ArgParser.class);</b>
+&nbsp;    private static final int DESCRIPTION_LENGTH = 60;
+<b class="fc">&nbsp;    private static final Pattern mainKey = Pattern.compile(&quot;^(--[A-Za-z0-9]+)&quot;);</b>
+<b class="fc">&nbsp;    private static final Pattern shortKey = Pattern.compile(&quot;^(-[A-Za-z0-9]+)&quot;);</b>
+<b class="fc">&nbsp;    private final List&lt;Arg&lt;?&gt;&gt; argList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    public ArgParser() {</b>
+<b class="fc">&nbsp;        addArg(&quot;help&quot;, String[].class)</b>
+<b class="fc">&nbsp;            .setShortKey(&#39;h&#39;)</b>
+<b class="fc">&nbsp;            .setDefault(new String[0])</b>
+<b class="fc">&nbsp;            .setHelp(&quot;Displays the help for arguments&quot;)</b>
+<b class="fc">&nbsp;            .setCommand(params -&gt; {</b>
+<b class="nc">&nbsp;                if(params.length == 0) {</b>
+<b class="nc">&nbsp;                    LOGGER.info(&quot;|%s|&quot;.formatted(&quot;-&quot;.repeat(102)));</b>
+<b class="nc">&nbsp;                    LOGGER.info(String.format(&quot;| %-24s | %-9s | %-60s |&quot;, &quot;Argument&quot;, &quot;Short Hand&quot;, &quot;Description&quot;));</b>
+<b class="nc">&nbsp;                    LOGGER.info(&quot;|%s|&quot;.formatted(&quot;-&quot;.repeat(102)));</b>
+<b class="nc">&nbsp;                    argList.forEach(arg -&gt; {</b>
+<b class="nc">&nbsp;                        List&lt;String&gt; lines = getStrings(arg);</b>
+<b class="nc">&nbsp;                        LOGGER.info(String.format(&quot;| %-24s | %-9s | %-60s |%n&quot;,&quot;--&quot;+arg.key, StringUtils.center(&quot;-&quot;+arg.shortKey, 10), lines.get(0)));</b>
+<b class="nc">&nbsp;                        lines.remove(0);</b>
+<b class="nc">&nbsp;                        for(String line: lines) {</b>
+<b class="nc">&nbsp;                            LOGGER.info(String.format(&quot;| %-37s | %-60s |%n&quot;, &quot;&quot;, line));</b>
+<b class="nc">&nbsp;                        }</b>
+<b class="nc">&nbsp;                        if(arg.defaultVal != null) {</b>
+<b class="nc">&nbsp;                            LOGGER.info(String.format(&quot;| %-37s | %-60s |%n&quot;, &quot;&quot;, &quot;Default: &quot; + (arg.defaultVal.getClass().isArray() ? Arrays.toString((Object[]) arg.defaultVal) : arg.defaultVal)));</b>
+&nbsp;                        }
+&nbsp;                    });
+<b class="nc">&nbsp;                    LOGGER.info(&quot;|%s|&quot;.formatted(&quot;-&quot;.repeat(102)));</b>
+&nbsp;                }
+<b class="nc">&nbsp;                System.exit(0);</b>
+<b class="fc">&nbsp;            }).ignoreWhenNotProvided();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static List&lt;String&gt; getStrings(Arg&lt;?&gt; arg) {
+<b class="nc">&nbsp;        List&lt;String&gt; lines = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        int pos = 0;</b>
+&nbsp;        do {
+<b class="nc">&nbsp;            int newPos = pos + DESCRIPTION_LENGTH;</b>
+<b class="nc">&nbsp;            String newSubString = arg.help.substring(pos, Math.min(newPos, arg.help.length()));</b>
+<b class="nc">&nbsp;            newSubString = newSubString.stripLeading();</b>
+<b class="nc">&nbsp;            lines.add(newSubString);</b>
+<b class="nc">&nbsp;            pos = newPos;</b>
+<b class="nc">&nbsp;        } while(pos &lt; arg.help.length());</b>
+<b class="nc">&nbsp;        return lines;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void parse(String... args) {
+<b class="fc">&nbsp;        List&lt;String&gt; appliedArgs = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; args.length; i++) {</b>
+<b class="fc">&nbsp;            if (mainKey.matcher(args[i]).find()) {</b>
+<b class="fc">&nbsp;                String foundKey = args[i].substring(2);</b>
+<b class="fc">&nbsp;                Optional&lt;Arg&lt;?&gt;&gt; arg = argList.stream().filter(item -&gt; item.key.equals(foundKey)).findFirst();</b>
+<b class="fc">&nbsp;                if (arg.isEmpty()) {</b>
+<b class="nc">&nbsp;                    throw new IllegalArgumentException(&quot;No parameter named &quot; + foundKey + &quot; found&quot;);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                handle(arg.get(), collectVal(i + 1, args));</b>
+<b class="fc">&nbsp;                appliedArgs.add(foundKey);</b>
+<b class="fc">&nbsp;            } else if (shortKey.matcher(args[i]).find()) {</b>
+<b class="fc">&nbsp;                if (args[i].length() &gt; 2) {</b>
+<b class="nc">&nbsp;                    throw new IllegalArgumentException(&quot;Invalid short key given. Only one character expected. Was given &quot; + args[i].charAt(1));</b>
+&nbsp;                }
+<b class="fc">&nbsp;                char k = args[i].charAt(1);</b>
+<b class="fc">&nbsp;                Optional&lt;Arg&lt;?&gt;&gt; arg = argList.stream().filter(item -&gt; item.shortKey == k).findFirst();</b>
+<b class="fc">&nbsp;                if(arg.isPresent()) {</b>
+<b class="fc">&nbsp;                    handle(arg.get(), collectVal(i + 1, args));</b>
+<b class="fc">&nbsp;                    appliedArgs.add(arg.get().key);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        argList.stream().filter(arg -&gt; !appliedArgs.contains(arg.key) &amp;&amp; !arg.ignoreÍfNotGiven).forEach(arg -&gt;</b>
+<b class="fc">&nbsp;            ((Consumer&lt;Object&gt;) arg.cmd).accept(arg.defaultVal)</b>
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    private &lt;T&gt; void handle(Arg&lt;T&gt; arg, String... vals) {
+<b class="fc">&nbsp;        if(arg.argType.equals(Integer[].class)) {</b>
+<b class="fc">&nbsp;            List&lt;Integer&gt; res = Arrays.stream(vals).map(Integer::valueOf).toList();</b>
+<b class="fc">&nbsp;            arg.cmd.accept((T) res.toArray(Integer[]::new));</b>
+<b class="fc">&nbsp;        } else if(arg.argType.equals(String[].class)) {</b>
+<b class="nc">&nbsp;            if(arg.argType.componentType().equals(String.class)) {</b>
+<b class="nc">&nbsp;                arg.cmd.accept((T) vals);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if(arg.argType.componentType().equals(Boolean.class)) {</b>
+<b class="nc">&nbsp;                List&lt;Boolean&gt; res = Arrays.stream(vals).map(Boolean::valueOf).toList();</b>
+<b class="nc">&nbsp;                arg.cmd.accept((T) res);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if(arg.argType.componentType().equals(Integer.class)) {</b>
+<b class="nc">&nbsp;                List&lt;Integer&gt; res = Arrays.stream(vals).map(Integer::valueOf).toList();</b>
+<b class="nc">&nbsp;                arg.cmd.accept((T) res);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if(arg.argType.componentType().equals(Double.class)) {</b>
+<b class="nc">&nbsp;                List&lt;Double&gt; res = Arrays.stream(vals).map(Double::valueOf).toList();</b>
+<b class="nc">&nbsp;                arg.cmd.accept((T) res);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if(arg.argType.componentType().equals(Float.class)) {</b>
+<b class="nc">&nbsp;                List&lt;Float&gt; res = Arrays.stream(vals).map(Float::valueOf).toList();</b>
+<b class="nc">&nbsp;                arg.cmd.accept((T) res);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            if(vals.length != 1) {</b>
+<b class="nc">&nbsp;                throw new IllegalArgumentException(&quot;Incorrect number of values given for argument. Given &quot; + Arrays.toString(vals));</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if(arg.argType.equals(String.class)){</b>
+<b class="fc">&nbsp;                arg.cmd.accept((T) vals[0]);</b>
+<b class="fc">&nbsp;            } else if(arg.argType.equals(Boolean.class)) {</b>
+<b class="fc">&nbsp;                arg.cmd.accept((T) Boolean.valueOf(vals[0]));</b>
+<b class="fc">&nbsp;            } else if (arg.argType.equals(Integer.class)) {</b>
+<b class="fc">&nbsp;                arg.cmd.accept((T) Integer.valueOf(vals[0]));</b>
+<b class="fc">&nbsp;            } else if (arg.argType.equals(Double.class)) {</b>
+<b class="fc">&nbsp;                arg.cmd.accept((T) Double.valueOf(vals[0]));</b>
+<b class="fc">&nbsp;            } else if (arg.argType.equals(Float.class)) {</b>
+<b class="fc">&nbsp;                arg.cmd.accept((T) Float.valueOf(vals[0]));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private String[] collectVal(int startIndex, String... args) {
+<b class="fc">&nbsp;        List&lt;String&gt; vals = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for(int i = startIndex; i &lt; args.length; i++) {</b>
+<b class="fc">&nbsp;            final int iterator = i;</b>
+<b class="fc">&nbsp;            if(args[i].startsWith(&quot;-&quot;)) {</b>
+<b class="fc">&nbsp;                Optional&lt;?&gt; o = argList.stream().filter(arg -&gt; args[iterator].substring(1).equals(arg.key) || args[iterator].substring(1).equals(String.valueOf(arg.shortKey))).findFirst();</b>
+<b class="fc">&nbsp;                if(o.isPresent()) {</b>
+<b class="nc">&nbsp;                    return vals.toArray(new String[0]);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            vals.add(args[i]);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return vals.toArray(new String[0]);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public &lt;T&gt; Arg&lt;T&gt; addArg(String key, Class&lt;T&gt; argType) {
+<b class="fc">&nbsp;        Arg&lt;T&gt; arg = new Arg&lt;&gt;(key, argType);</b>
+<b class="fc">&nbsp;        argList.add(arg);</b>
+<b class="fc">&nbsp;        return arg;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void throwIllegalArgumentIfKeyUsed(String key) {
+<b class="fc">&nbsp;        if(argList.stream().anyMatch(item -&gt; item.key.equals(key))) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Key &quot; + key + &quot; already exists as an argument.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    public class Arg&lt;T&gt; {
+&nbsp;        private final Class&lt;T&gt; argType;
+&nbsp;        private final String key;
+&nbsp;        private char shortKey;
+<b class="fc">&nbsp;        private T defaultVal = null;</b>
+<b class="fc">&nbsp;        private String help = &quot;&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        private boolean ignoreÍfNotGiven = false;</b>
+<b class="fc">&nbsp;        private Consumer&lt;T&gt; cmd = val -&gt; { throw new IllegalArgumentException(&quot;Command not defined&quot;); };</b>
+<b class="fc">&nbsp;        public Arg(String key, Class&lt;T&gt; argType) {</b>
+<b class="fc">&nbsp;            throwIllegalArgumentIfKeyUsed(key);</b>
+<b class="fc">&nbsp;            throwUnsupportedExceptionIfUnsupportedType(argType);</b>
+<b class="fc">&nbsp;            this.key = key;</b>
+<b class="fc">&nbsp;            this.argType = argType;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Arg&lt;T&gt; setHelp(String help) {
+<b class="fc">&nbsp;            this.help = help;</b>
+<b class="fc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Arg&lt;T&gt; ignoreWhenNotProvided() {
+<b class="fc">&nbsp;            ignoreÍfNotGiven = true;</b>
+<b class="fc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Arg&lt;T&gt; setShortKey(char shortKey) {
+<b class="fc">&nbsp;            throwIllegalArgumentIfShortKeyUsed(shortKey);</b>
+<b class="fc">&nbsp;            this.shortKey = shortKey;</b>
+<b class="fc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public char getShortKey() {
+<b class="fc">&nbsp;            return shortKey;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Arg&lt;T&gt; setDefault(T defaultVal) {
+<b class="fc">&nbsp;            this.defaultVal = defaultVal;</b>
+<b class="fc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Arg&lt;T&gt; setCommand(Consumer&lt;T&gt; cmd) {
+<b class="fc">&nbsp;            if(cmd == null) {</b>
+<b class="nc">&nbsp;                throw new IllegalArgumentException(&quot;cmd cannot be null&quot;);</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            this.cmd = cmd;</b>
+<b class="fc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        private void throwIllegalArgumentIfShortKeyUsed(char shortKey) {
+<b class="fc">&nbsp;            if(argList.stream().anyMatch(item -&gt; item.getShortKey() == shortKey)) {</b>
+<b class="nc">&nbsp;                throw new IllegalArgumentException(&quot;Short Key &quot; + shortKey + &quot; already exists as an argument.&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        private void throwUnsupportedExceptionIfUnsupportedType(Class&lt;?&gt; type) {
+<b class="fc">&nbsp;            if(!(type.equals(Integer.class)</b>
+<b class="fc">&nbsp;                    || type.equals(Boolean.class)</b>
+<b class="fc">&nbsp;                    || type.equals(String.class)</b>
+<b class="fc">&nbsp;                    || type.equals(Double.class)</b>
+<b class="fc">&nbsp;                    || type.equals(Float.class)</b>
+<b class="fc">&nbsp;                    || type.equals(Integer[].class)</b>
+<b class="fc">&nbsp;                    || type.equals(Boolean[].class)</b>
+<b class="fc">&nbsp;                    || type.equals(String[].class)</b>
+<b class="nc">&nbsp;                    || type.equals(Double[].class)</b>
+<b class="nc">&nbsp;                    || type.equals(Float[].class))) {</b>
+<b class="nc">&nbsp;                throw new UnsupportedOperationException(&quot;Type &quot; + type.getName() + &quot; not supported.&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

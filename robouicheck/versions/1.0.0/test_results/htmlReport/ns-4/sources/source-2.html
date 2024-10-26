@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > KeyboardController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: KeyboardController (com.kalynx.uitestframework.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">KeyboardController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (22/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.controller;
+&nbsp;import com.kalynx.uitestframework.data.KeyboardMap;
+&nbsp;import com.kalynx.uitestframework.data.KeyboardSpecialKeys;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;import java.time.Duration;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;
+&nbsp;public class KeyboardController {
+&nbsp;
+&nbsp;    private final Robot robot;
+<b class="fc">&nbsp;    private final KeyboardMap keyboardMap = new KeyboardMap();</b>
+<b class="fc">&nbsp;    private int TYPE_DELAY_MS = 20;</b>
+&nbsp;
+<b class="fc">&nbsp;    public KeyboardController( RobotControl robot) {</b>
+<b class="fc">&nbsp;        this.robot = robot.getRobot();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void keyPress(KeyboardSpecialKeys... specialKeys) throws InterruptedException {
+<b class="fc">&nbsp;        for (KeyboardSpecialKeys specialKey : specialKeys) {</b>
+<b class="fc">&nbsp;            robot.keyPress(specialKey.id);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        TimeUnit.MILLISECONDS.sleep(TYPE_DELAY_MS);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void keyRelease(KeyboardSpecialKeys... specialKeys) throws InterruptedException {
+&nbsp;
+<b class="fc">&nbsp;        TimeUnit.MILLISECONDS.sleep(TYPE_DELAY_MS);</b>
+<b class="fc">&nbsp;        for (KeyboardSpecialKeys specialKey : specialKeys) {</b>
+<b class="fc">&nbsp;            robot.keyRelease(specialKey.id);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        TimeUnit.MILLISECONDS.sleep(TYPE_DELAY_MS);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTypeDelay(Duration delay) {
+<b class="nc">&nbsp;        if(delay.toMillis() &lt; 0)  throw new IllegalArgumentException(&quot;Delay cannot be negative&quot;);</b>
+<b class="nc">&nbsp;        TYPE_DELAY_MS = (int) delay.toMillis();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void keyClick(KeyboardSpecialKeys... modifiers) throws InterruptedException {
+<b class="fc">&nbsp;        keyPress(modifiers);</b>
+<b class="fc">&nbsp;        keyRelease(modifiers);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void type(String message) throws InterruptedException {
+&nbsp;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; message.length(); i++) {</b>
+<b class="fc">&nbsp;            int[] keys = keyboardMap.getKeyboardAction(message.charAt(i));</b>
+<b class="fc">&nbsp;            pressKeySet(keys);</b>
+<b class="fc">&nbsp;            releaseKeySet(keys);</b>
+<b class="fc">&nbsp;            TimeUnit.MILLISECONDS.sleep(TYPE_DELAY_MS);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void pressKeySet(int[] keyset) {
+<b class="fc">&nbsp;        for (int j : keyset) {</b>
+<b class="fc">&nbsp;            robot.keyPress(j);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void releaseKeySet(int[] keyset) {
+<b class="fc">&nbsp;        for (int i = keyset.length - 1; i &gt;= 0; i--) {</b>
+<b class="fc">&nbsp;            robot.keyRelease(keyset[i]);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,259 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > LinuxWindowApi</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.os.linux</a>
+</div>
+
+<h1>Coverage Summary for Class: LinuxWindowApi (com.kalynx.uitestframework.os.linux)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LinuxWindowApi</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/83)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.os.linux;
+&nbsp;
+&nbsp;import com.kalynx.uitestframework.controller.DisplayManager;
+&nbsp;import com.kalynx.uitestframework.exceptions.DisplayNotFoundException;
+&nbsp;import com.kalynx.uitestframework.os.Window;
+&nbsp;import com.sun.jna.Native;
+&nbsp;import com.sun.jna.platform.unix.X11;
+&nbsp;import com.sun.jna.ptr.IntByReference;
+&nbsp;import com.sun.jna.ptr.PointerByReference;
+&nbsp;
+&nbsp;import java.awt.Rectangle;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;public class LinuxWindowApi implements Window {
+<b class="nc">&nbsp;    private static final X11 x11 = X11.INSTANCE;</b>
+<b class="nc">&nbsp;    private static final XLib X_LIB = XLib.INSTANCE;</b>
+&nbsp;    private final DisplayManager displayManager;
+&nbsp;
+<b class="nc">&nbsp;    public LinuxWindowApi(DisplayManager displayManager) {</b>
+<b class="nc">&nbsp;        this.displayManager = displayManager;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;String&gt; getAllWindows() {
+<b class="nc">&nbsp;        Map&lt;String, Long&gt; windows = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        X11.Display display = x11.XOpenDisplay(null);</b>
+<b class="nc">&nbsp;        X11.Window root = x11.XDefaultRootWindow(display);</b>
+<b class="nc">&nbsp;        rescurseWindows(windows, display, root);</b>
+<b class="nc">&nbsp;        x11.XCloseDisplay(display);</b>
+<b class="nc">&nbsp;        return new ArrayList&lt;&gt;(windows.keySet());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Rectangle getWindowDimensions(String windowName) {
+<b class="nc">&nbsp;        X11.Display display = x11.XOpenDisplay(null);</b>
+<b class="nc">&nbsp;        int selectedWindow = getWindowId(display, windowName);</b>
+<b class="nc">&nbsp;        X11.Window window = new X11.Window(selectedWindow);</b>
+&nbsp;
+<b class="nc">&nbsp;        if(selectedWindow != -1) {</b>
+<b class="nc">&nbsp;            X11.XWindowAttributes attributes = new X11.XWindowAttributes();</b>
+<b class="nc">&nbsp;            x11.XGetWindowAttributes(display, window,attributes);</b>
+<b class="nc">&nbsp;            return new Rectangle(attributes.x, attributes.y, attributes.width, attributes.height);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean setWindowPosition(String windowName, int x, int y) {
+&nbsp;
+<b class="nc">&nbsp;        X11.Display display = x11.XOpenDisplay(null);</b>
+<b class="nc">&nbsp;        int selectedWindow = getWindowId(display, windowName);</b>
+&nbsp;
+<b class="nc">&nbsp;        if(selectedWindow != -1) {</b>
+<b class="nc">&nbsp;            XLib.XSetWindowAttributes attributes = new XLib.XSetWindowAttributes();</b>
+<b class="nc">&nbsp;            attributes.override_redirect = 1;</b>
+<b class="nc">&nbsp;            X_LIB.XChangeWindowAttributes(display.getPointer(), selectedWindow, X11.CWOverrideRedirect, attributes);</b>
+<b class="nc">&nbsp;            X_LIB.XMoveWindow(display.getPointer(), selectedWindow, x, y);</b>
+<b class="nc">&nbsp;            X_LIB.INSTANCE.XMapWindow(display.getPointer(), selectedWindow);</b>
+<b class="nc">&nbsp;            X_LIB.INSTANCE.XFlush(display.getPointer());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean setWindowPosition(String windowName, String displayReference, int x, int y) {
+&nbsp;        try {
+<b class="nc">&nbsp;            int dispX = displayManager.getDisplay(displayReference).x();</b>
+<b class="nc">&nbsp;            int dispY = displayManager.getDisplay(displayReference).y();</b>
+<b class="nc">&nbsp;            return setWindowPosition(windowName, x + dispX, y + dispY);</b>
+<b class="nc">&nbsp;        } catch (DisplayNotFoundException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean setWindowSize(String windowName, int width, int height) {
+<b class="nc">&nbsp;        X11.Display display = x11.XOpenDisplay(null);</b>
+<b class="nc">&nbsp;        int selectedWindow = getWindowId(display, windowName);</b>
+<b class="nc">&nbsp;        if(selectedWindow != -1) {</b>
+<b class="nc">&nbsp;            XLib.XSetWindowAttributes attributes = new XLib.XSetWindowAttributes();</b>
+<b class="nc">&nbsp;            attributes.override_redirect = 1;</b>
+<b class="nc">&nbsp;            X_LIB.XChangeWindowAttributes(display.getPointer(), selectedWindow, X11.CWOverrideRedirect, attributes);</b>
+<b class="nc">&nbsp;            X_LIB.XResizeWindow(display.getPointer(), selectedWindow, width, height);</b>
+<b class="nc">&nbsp;            X_LIB.INSTANCE.XMapWindow(display.getPointer(), selectedWindow);</b>
+<b class="nc">&nbsp;            X_LIB.INSTANCE.XFlush(display.getPointer());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean bringToFront(String windowName) {
+<b class="nc">&nbsp;        X11.Display display = x11.XOpenDisplay(null);</b>
+<b class="nc">&nbsp;        int selectedWindow = getWindowId(display, windowName);</b>
+<b class="nc">&nbsp;        if(selectedWindow != -1) {</b>
+<b class="nc">&nbsp;            XLib.XSetWindowAttributes attributes = new XLib.XSetWindowAttributes();</b>
+<b class="nc">&nbsp;            attributes.override_redirect = 1;</b>
+<b class="nc">&nbsp;            X_LIB.XChangeWindowAttributes(display.getPointer(), selectedWindow, X11.CWOverrideRedirect, attributes);</b>
+<b class="nc">&nbsp;            X_LIB.XRaiseWindow(display.getPointer(), selectedWindow);</b>
+<b class="nc">&nbsp;            X_LIB.INSTANCE.XMapWindow(display.getPointer(), selectedWindow);</b>
+<b class="nc">&nbsp;            X_LIB.INSTANCE.XFlush(display.getPointer());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private int getWindowId(X11.Display display, String name) {
+<b class="nc">&nbsp;        Map&lt;String, Long&gt; windows = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        X11.Window root = x11.XDefaultRootWindow(display);</b>
+<b class="nc">&nbsp;        rescurseWindows(windows,display,root);</b>
+<b class="nc">&nbsp;        Optional&lt;String&gt; fullName = windows.keySet().stream().filter(key -&gt; key.contains(name)).findFirst();</b>
+<b class="nc">&nbsp;        return fullName.map(s -&gt; windows.get(s).intValue()).orElse(-1);</b>
+&nbsp;    }
+&nbsp;    private void rescurseWindows(Map&lt;String, Long&gt; names, X11.Display display, X11.Window root) {
+<b class="nc">&nbsp;        X11.WindowByReference windowRef = new X11.WindowByReference();</b>
+<b class="nc">&nbsp;        X11.WindowByReference parentRef = new X11.WindowByReference();</b>
+<b class="nc">&nbsp;        PointerByReference childrenRef = new PointerByReference();</b>
+<b class="nc">&nbsp;        IntByReference childCountRef = new IntByReference();</b>
+&nbsp;
+<b class="nc">&nbsp;        x11.XQueryTree(display, root, windowRef, parentRef,childrenRef,childCountRef);</b>
+&nbsp;
+<b class="nc">&nbsp;        if(childrenRef.getValue() == null) {</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+&nbsp;        long[] ids;
+&nbsp;
+<b class="nc">&nbsp;        if(Native.LONG_SIZE == Long.BYTES) {</b>
+<b class="nc">&nbsp;            ids = childrenRef.getValue().getLongArray(0, childCountRef.getValue());</b>
+<b class="nc">&nbsp;        } else if (Native.LONG_SIZE == Integer.BYTES) {</b>
+<b class="nc">&nbsp;            int[] intIds = childrenRef.getValue().getIntArray(0, childCountRef.getValue());</b>
+<b class="nc">&nbsp;            ids = new long[intIds.length];</b>
+<b class="nc">&nbsp;            for(int i = 0; i &lt; intIds.length; i++) {</b>
+<b class="nc">&nbsp;                ids[i] = intIds[i];</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } else {</b>
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Unexpected size for Native.LONG_SIZE&quot; + Native.LONG_SIZE);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for (long id : ids) {</b>
+<b class="nc">&nbsp;            if(id == 0) {</b>
+<b class="nc">&nbsp;                continue;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            X11.Window window = new X11.Window(id);</b>
+&nbsp;
+<b class="nc">&nbsp;            X11.XTextProperty name = new X11.XTextProperty();</b>
+<b class="nc">&nbsp;            x11.XGetWMName(display, window, name);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (name.value != null &amp;&amp; !name.value.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;                names.put(name.value, id);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            x11.XFree(name.getPointer());</b>
+<b class="nc">&nbsp;            rescurseWindows(names, display, window);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

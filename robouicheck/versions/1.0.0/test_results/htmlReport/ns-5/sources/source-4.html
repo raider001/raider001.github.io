@@ -1,0 +1,182 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ImageLibrary</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.data</a>
+</div>
+
+<h1>Coverage Summary for Class: ImageLibrary (com.kalynx.uitestframework.data)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ImageLibrary</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76.5%
+  </span>
+  <span class="absValue">
+    (13/17)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ImageLibrary$TemplateContainer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (16/20)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.data;
+&nbsp;
+&nbsp;import org.opencv.core.Mat;
+&nbsp;import org.opencv.imgcodecs.Imgcodecs;
+&nbsp;import org.opencv.imgproc.Imgproc;
+&nbsp;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.util.*;
+&nbsp;
+<b class="fc">&nbsp;public class ImageLibrary {</b>
+<b class="fc">&nbsp;    private final Set&lt;Path&gt; imageLibraries = new HashSet&lt;&gt;();</b>
+&nbsp;
+&nbsp;    public void addLibrary(Path newLibrary) {
+<b class="fc">&nbsp;        imageLibraries.add(newLibrary);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;String&gt; getLibraryPaths() {
+<b class="nc">&nbsp;        return imageLibraries.stream().map(Path::toString).toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Result&lt;TemplateContainer&gt; findImage(Path imagePath) {
+<b class="fc">&nbsp;        List&lt;Path&gt; paths = imageLibraries.stream().filter(basePath -&gt;  basePath.resolve(imagePath).toFile().exists()).toList();</b>
+<b class="fc">&nbsp;        if(paths.isEmpty()) return new FailedResult&lt;&gt;(&quot;&quot;&quot;</b>
+&nbsp;        &quot;No Image in any given library called: &#39;%s&#39;
+&nbsp;        Available Libraries:
+&nbsp;        %s
+<b class="nc">&nbsp;        &quot;&quot;&quot;.formatted(imagePath.toString(), Arrays.toString(imageLibraries.toArray())));</b>
+<b class="fc">&nbsp;        if(paths.size() &gt; 1) {</b>
+<b class="nc">&nbsp;            return new FailedResult&lt;&gt;(&quot;&quot;&quot;</b>
+&nbsp;                    Image with given path %s exists in multiple libraries. Found in:
+&nbsp;                    %s
+<b class="nc">&nbsp;                    &quot;&quot;&quot;.formatted(imagePath, Arrays.toString(paths.toArray())));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Path p = paths.get(0);</b>
+<b class="fc">&nbsp;        Mat template = Imgcodecs.imread(p.resolve(imagePath).toAbsolutePath().toString(),Imgcodecs.IMREAD_COLOR);</b>
+<b class="fc">&nbsp;        Mat mask = Imgcodecs.imread(p.resolve(imagePath).toAbsolutePath().toString(),Imgcodecs.IMREAD_COLOR);</b>
+<b class="fc">&nbsp;        Imgproc.cvtColor(mask,mask,Imgproc.COLOR_BGR2GRAY);</b>
+<b class="fc">&nbsp;        Imgproc.threshold(mask,mask,0,255,Imgproc.THRESH_BINARY);</b>
+<b class="fc">&nbsp;        Imgcodecs.imwrite(&quot;mask.png&quot;,mask);</b>
+<b class="fc">&nbsp;        return new SuccessfulResult&lt;&gt;(Optional.of(new TemplateContainer(template, mask)), &quot;Image Found&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public class TemplateContainer {
+&nbsp;        public final Mat template;
+&nbsp;        public final Mat mask;
+&nbsp;
+<b class="fc">&nbsp;        private TemplateContainer(Mat template, Mat mask) {</b>
+<b class="fc">&nbsp;            this.template = template;</b>
+<b class="fc">&nbsp;            this.mask = mask;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

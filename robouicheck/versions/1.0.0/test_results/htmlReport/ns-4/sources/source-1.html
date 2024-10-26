@@ -1,0 +1,469 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DisplayManager</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: DisplayManager (com.kalynx.uitestframework.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DisplayManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.5%
+  </span>
+  <span class="absValue">
+    (78/80)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DisplayManager$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">DisplayManager$DisplayData</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">DisplayManager$Existing</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (48/48)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">DisplayManager$Relative</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (37/37)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.5%
+  </span>
+  <span class="absValue">
+    (131/133)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.controller;
+&nbsp;
+&nbsp;import com.kalynx.lwdi.DI;
+&nbsp;import com.kalynx.uitestframework.data.DisplayAttributes;
+&nbsp;import com.kalynx.uitestframework.data.RelativeEnum;
+&nbsp;import com.kalynx.uitestframework.exceptions.DisplayNotFoundException;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;import java.util.*;
+&nbsp;import java.util.List;
+&nbsp;import java.util.concurrent.ConcurrentLinkedQueue;
+&nbsp;
+&nbsp;/**
+&nbsp; * Manages the display referencing functionality.
+&nbsp; */
+<b class="fc">&nbsp;public class DisplayManager {</b>
+&nbsp;
+<b class="fc">&nbsp;    private final Map&lt;Integer, DisplayAttributes&gt; displayIdToDimensionMap = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    private final Map&lt;String, DisplayAttributes&gt; displayNameToDimensionMap = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    private final Map&lt;DisplayAttributes, DisplayData&gt; displayData = new HashMap&lt;&gt;();</b>
+&nbsp;    private DisplayAttributes selectedDisplay;
+&nbsp;
+&nbsp;    @DI
+<b class="fc">&nbsp;    public DisplayManager() throws AWTException {</b>
+<b class="fc">&nbsp;        GraphicsDevice[] d = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; d.length; i++) {</b>
+<b class="fc">&nbsp;            Rectangle rectangle = d[i].getConfigurations()[0].getBounds();</b>
+<b class="fc">&nbsp;            GraphicsDevice defaultDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();</b>
+<b class="fc">&nbsp;            DisplayAttributes attr = new DisplayAttributes(i, d[i], defaultDevice.equals(d[i]), rectangle.x, rectangle.y, rectangle.width, rectangle.height);</b>
+<b class="fc">&nbsp;            displayIdToDimensionMap.put(i, attr);</b>
+<b class="fc">&nbsp;            if (attr.primary()) {</b>
+<b class="fc">&nbsp;                selectedDisplay = attr;</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            int cores = Runtime.getRuntime().availableProcessors();</b>
+<b class="fc">&nbsp;            ConcurrentLinkedQueue&lt;Robot&gt; robots = new ConcurrentLinkedQueue&lt;&gt;();</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; cores * 10; j++) {</b>
+&nbsp;
+<b class="fc">&nbsp;                robots.add(new Robot(defaultDevice));</b>
+&nbsp;            }
+<b class="fc">&nbsp;            displayData.put(attr, new DisplayData(rectangle, robots));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // Used for Testing purposes
+&nbsp;    @SuppressWarnings(&quot;unused&quot;)
+<b class="fc">&nbsp;    public DisplayManager(DisplayAttributes... attrs) {</b>
+<b class="fc">&nbsp;        Arrays.stream(attrs).toList().forEach(attr -&gt; {</b>
+<b class="fc">&nbsp;            displayIdToDimensionMap.put(attr.displayId(), attr);</b>
+<b class="fc">&nbsp;            int cores = Runtime.getRuntime().availableProcessors();</b>
+<b class="fc">&nbsp;            ConcurrentLinkedQueue&lt;Robot&gt; robots = new ConcurrentLinkedQueue&lt;&gt;();</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; cores; j++) {</b>
+&nbsp;                try {
+<b class="fc">&nbsp;                    robots.add(new Robot(attr.graphicsDevice()));</b>
+<b class="nc">&nbsp;                } catch (AWTException e) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+<b class="fc">&nbsp;                }</b>
+&nbsp;            }
+<b class="fc">&nbsp;            displayData.put(attr, new DisplayData(new Rectangle(attr.x(), attr.y(), attr.width(), attr.height()), robots));</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the capture region for the currently selected display.
+&nbsp;     * The bounds provided are treated as relative to the selected display.
+&nbsp;     * @param screenRegion The Region of the screen to capture.
+&nbsp;     */
+&nbsp;    public void setCaptureRegion(Rectangle screenRegion) {
+<b class="fc">&nbsp;        Objects.requireNonNull(screenRegion);</b>
+<b class="fc">&nbsp;        validateRegionData(screenRegion, getSelectedDisplay());</b>
+<b class="fc">&nbsp;        getSelectedDisplayRegion().displayRegion().setBounds((int) (screenRegion.getX() + selectedDisplay.x()),</b>
+<b class="fc">&nbsp;                (int) (selectedDisplay.y() + screenRegion.getY()),</b>
+&nbsp;                screenRegion.width,
+&nbsp;                screenRegion.height);
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the display region for a region with the specific display ID.
+&nbsp;     * @param reference Id of the display
+&nbsp;     * @param x horizontal position of the screen
+&nbsp;     * @param y vertical position of the screen
+&nbsp;     * @param width total width to monitor or capture
+&nbsp;     * @param height total height to monitor or capture
+&nbsp;     */
+&nbsp;    public void setDisplayRegion(int reference, int x, int y, int width, int height) {
+<b class="fc">&nbsp;        DisplayAttributes attr = getDisplay(reference);</b>
+<b class="fc">&nbsp;        validateRegionData(new Rectangle(x,y,width,height), attr);</b>
+<b class="fc">&nbsp;        displayData.get(attr).displayRegion().setBounds((x + attr.x()),</b>
+<b class="fc">&nbsp;                (attr.y() + y),</b>
+&nbsp;                width,
+&nbsp;                height);
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    private void validateRegionData(Rectangle screenRegion, DisplayAttributes selectedDisplay ) {if(screenRegion.x &lt; 0) throw new AssertionError(&quot;screenRegion x must be greater than or equal to 0&quot;);</b>
+<b class="fc">&nbsp;        if(screenRegion.y &lt; 0)  throw new AssertionError(&quot;screenRegion y must be greater than or equal to 0&quot;);</b>
+<b class="fc">&nbsp;        if (screenRegion.width &lt;= 0) throw new AssertionError(&quot;screenRegion width must be greater than 0&quot;);</b>
+<b class="fc">&nbsp;        if (screenRegion.height &lt;= 0) throw new AssertionError(&quot;screenRegion height must be greater than 0&quot;);</b>
+<b class="fc">&nbsp;        if(screenRegion.x + screenRegion.width &gt; selectedDisplay.width())</b>
+<b class="fc">&nbsp;            throw new AssertionError(&quot;screenRegion x(&quot; + screenRegion.x + &quot;) + width(&quot; + screenRegion.width + &quot;) must be less than the selected screen width(&quot; + selectedDisplay.width() + &quot;)&quot;);</b>
+<b class="fc">&nbsp;        if(screenRegion.y + screenRegion.height &gt; selectedDisplay.height())</b>
+<b class="fc">&nbsp;            throw new AssertionError(&quot;screenRegion y(&quot; + screenRegion.y + &quot;) + height(&quot; + screenRegion.height + &quot;) must be less than the selected screen height(&quot; + selectedDisplay.height() + &quot;)&quot;);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public BufferedImage capture() {
+<b class="fc">&nbsp;        DisplayManager.DisplayData dd = getSelectedDisplayRegion();</b>
+&nbsp;
+<b class="fc">&nbsp;        Robot robot = getSelectedDisplayRegion().robots().poll();</b>
+<b class="fc">&nbsp;        assert robot != null;</b>
+<b class="fc">&nbsp;        BufferedImage img = robot.createScreenCapture(dd.displayRegion());</b>
+<b class="fc">&nbsp;        getSelectedDisplayRegion().robots().add(robot);</b>
+<b class="fc">&nbsp;        return img;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public BufferedImage capture(Rectangle rectangle) throws DisplayNotFoundException {
+<b class="fc">&nbsp;        DisplayAttributes attr = getDisplays().stream().filter(displayAttributes -&gt;</b>
+<b class="fc">&nbsp;            displayAttributes.x() &lt;=rectangle.x &amp;&amp; displayAttributes.y() &lt;= rectangle.y &amp;&amp;</b>
+<b class="fc">&nbsp;                    displayAttributes.x() + displayAttributes.width() &gt;= rectangle.x + rectangle.width &amp;&amp;</b>
+<b class="fc">&nbsp;                    displayAttributes.y() + displayAttributes.height() &gt;= rectangle.y + rectangle.height</b>
+<b class="fc">&nbsp;        ).findFirst().orElseThrow(() -&gt; new DisplayNotFoundException(&quot;Rectangle is not within any display&quot;));</b>
+<b class="fc">&nbsp;        Robot robot = getDisplayDisplayRegion(attr).robots().poll();</b>
+<b class="fc">&nbsp;        assert robot != null;</b>
+<b class="fc">&nbsp;        BufferedImage img = robot.createScreenCapture(rectangle);</b>
+<b class="fc">&nbsp;        getSelectedDisplayRegion().robots().add(robot);</b>
+<b class="fc">&nbsp;        return img;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public DisplayAttributes getDisplay(String reference) throws DisplayNotFoundException {
+<b class="fc">&nbsp;        DisplayAttributes attr = displayNameToDimensionMap.get(reference);</b>
+<b class="fc">&nbsp;        if(attr == null) throw new DisplayNotFoundException(reference);</b>
+<b class="fc">&nbsp;        return attr;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public DisplayAttributes getDisplay(int reference) {
+<b class="fc">&nbsp;        return displayIdToDimensionMap.get(reference);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    public List&lt;DisplayAttributes&gt; getDisplays() {
+<b class="fc">&nbsp;        return displayIdToDimensionMap.values().stream().toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDisplay(String display) throws DisplayNotFoundException {
+<b class="fc">&nbsp;        DisplayAttributes attributes = getDisplay(display);</b>
+<b class="fc">&nbsp;        if (attributes == null) throw new IllegalArgumentException(&quot;Display &quot; + display + &quot; does not exist&quot;);</b>
+<b class="fc">&nbsp;        selectedDisplay = attributes;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDisplay(int display) {
+<b class="fc">&nbsp;        selectedDisplay = displayData.keySet().stream()</b>
+<b class="fc">&nbsp;                .filter(data -&gt; data.displayId() == display).findFirst()</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Display &quot; + display + &quot; does not exist&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPrimaryReference(String referenceName) {
+<b class="fc">&nbsp;        displayIdToDimensionMap.values().stream()</b>
+<b class="fc">&nbsp;                .filter(DisplayAttributes::primary)</b>
+<b class="fc">&nbsp;                .findFirst()</b>
+<b class="fc">&nbsp;                .ifPresent(displayAttributes -&gt; displayNameToDimensionMap.put(Objects.requireNonNull(referenceName), displayAttributes));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public DisplayData getSelectedDisplayRegion() {
+<b class="fc">&nbsp;        return displayData.get(selectedDisplay);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public DisplayData getDisplayDisplayRegion(DisplayAttributes dispAttr) {
+<b class="fc">&nbsp;        return displayData.get(dispAttr);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Relative setReference(String referenceName) {
+<b class="fc">&nbsp;        return new Relative(referenceName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public DisplayAttributes getSelectedDisplay() {
+<b class="fc">&nbsp;        return selectedDisplay;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public record DisplayData(Rectangle displayRegion, ConcurrentLinkedQueue&lt;Robot&gt; robots) {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public class Relative {
+&nbsp;        private final String referenceName;
+&nbsp;
+<b class="fc">&nbsp;        private Relative(String referenceName) {</b>
+<b class="fc">&nbsp;            this.referenceName = referenceName;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Existing relative(RelativeEnum rel) {
+<b class="fc">&nbsp;            return new Existing(referenceName, rel);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public class Existing {
+&nbsp;        private final String newReference;
+&nbsp;        private final RelativeEnum rel;
+&nbsp;
+<b class="fc">&nbsp;        private Existing(String newReference, RelativeEnum rel) {</b>
+<b class="fc">&nbsp;            this.newReference = newReference;</b>
+<b class="fc">&nbsp;            this.rel = rel;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public void of(String referenceName) {
+<b class="fc">&nbsp;            DisplayAttributes referenceAttr = DisplayManager.this.displayNameToDimensionMap.get(referenceName);</b>
+<b class="fc">&nbsp;            displayNameToDimensionMap.put(newReference, displayNameToDimensionMap.get(referenceName));</b>
+<b class="fc">&nbsp;            switch (rel) {</b>
+<b class="fc">&nbsp;                case LEFT -&gt; determineDisplayClosestToLeft(referenceAttr, newReference);</b>
+<b class="fc">&nbsp;                case RIGHT -&gt; determineDisplayClosestToRight(referenceAttr, newReference);</b>
+<b class="fc">&nbsp;                case ABOVE -&gt; determineDisplayClosestToTop(referenceAttr, newReference);</b>
+<b class="fc">&nbsp;                case BELOW -&gt; determineDisplayClosestToBottom(referenceAttr, newReference);</b>
+<b class="fc">&nbsp;                case SMALLER_THAN -&gt; determineSmallerScreen(referenceAttr, newReference);</b>
+<b class="fc">&nbsp;                case LARGER_THAN -&gt; determineLargerScreen(referenceAttr, newReference);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        private void determineDisplayClosestToTop(DisplayAttributes referenceAttr, String displayName) {
+<b class="fc">&nbsp;            displayIdToDimensionMap.values().stream()</b>
+<b class="fc">&nbsp;                    .filter(dispAttr -&gt;</b>
+<b class="fc">&nbsp;                            dispAttr.displayId() != referenceAttr.displayId()                                     // Is not the same display</b>
+<b class="fc">&nbsp;                                    &amp;&amp; dispAttr.x() &gt;= referenceAttr.x() &amp;&amp; dispAttr.x() &lt;= referenceAttr.x() + referenceAttr.width() // x is within the reference vertical bounds</b>
+<b class="fc">&nbsp;                                    &amp;&amp; dispAttr.y() &lt; referenceAttr.y()// y is above the reference monitor</b>
+<b class="fc">&nbsp;                    ).max(Comparator.comparingInt(DisplayAttributes::y))</b>
+<b class="fc">&nbsp;                    .ifPresent(res -&gt; displayNameToDimensionMap.put(displayName, res));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        private void determineDisplayClosestToBottom(DisplayAttributes referenceAttr, String displayName) {
+<b class="fc">&nbsp;            displayIdToDimensionMap.values().stream()</b>
+<b class="fc">&nbsp;                    .filter(dispAttr -&gt;</b>
+<b class="fc">&nbsp;                            dispAttr.displayId() != referenceAttr.displayId()                                     // Is not the same display</b>
+<b class="fc">&nbsp;                                    &amp;&amp; dispAttr.x() &gt;= referenceAttr.x() &amp;&amp; dispAttr.x() &lt;= referenceAttr.x() + referenceAttr.width() // x is within the reference vertical bounds</b>
+<b class="fc">&nbsp;                                    &amp;&amp; dispAttr.y() &gt; referenceAttr.y()</b>
+&nbsp;
+<b class="fc">&nbsp;                    ).min(Comparator.comparingInt(DisplayAttributes::y))</b>
+<b class="fc">&nbsp;                    .ifPresent(res -&gt; displayNameToDimensionMap.put(displayName, res));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        private void determineLargerScreen(DisplayAttributes referenceAttr, String displayName) {
+<b class="fc">&nbsp;            displayIdToDimensionMap.values().stream()</b>
+<b class="fc">&nbsp;                    .filter(dispAttr -&gt; dispAttr.displayId() != referenceAttr.displayId()                                    // Is not the same display</b>
+<b class="fc">&nbsp;                            &amp;&amp; dispAttr.width() * dispAttr.height() &gt; referenceAttr.width() * referenceAttr.height())</b>
+<b class="fc">&nbsp;                    .min(Comparator.comparingInt(distAttr -&gt; distAttr.width() * distAttr.height()))</b>
+<b class="fc">&nbsp;                    .ifPresent(res -&gt; displayNameToDimensionMap.put(displayName, res));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        private void determineSmallerScreen(DisplayAttributes referenceAttr, String displayName) {
+<b class="fc">&nbsp;            displayIdToDimensionMap.values().stream()</b>
+<b class="fc">&nbsp;                    .filter(dispAttr -&gt; dispAttr.displayId() != referenceAttr.displayId()                                    // Is not the same display</b>
+<b class="fc">&nbsp;                            &amp;&amp; dispAttr.width() * dispAttr.height() &lt; referenceAttr.width() * referenceAttr.height()).max(Comparator.comparingInt(distAttr -&gt; distAttr.width() * distAttr.height()))</b>
+<b class="fc">&nbsp;                    .ifPresent(res -&gt; displayNameToDimensionMap.put(displayName, res));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        private void determineDisplayClosestToLeft(DisplayAttributes referenceAttr, String displayName) {
+&nbsp;            // calculation
+&nbsp;            // must be within or equal the reference monitor vertical range (x, x + height)
+&nbsp;            // must be the closest to the left of the reference monitor without it being the same &#39;x&#39; position
+&nbsp;            // where more than one monitor is to the left, use the closest to the reference monitor.
+<b class="fc">&nbsp;            displayIdToDimensionMap.values().stream()</b>
+<b class="fc">&nbsp;                    .filter(dispAttr -&gt;</b>
+<b class="fc">&nbsp;                            dispAttr.displayId() != referenceAttr.displayId()                                         // Is not the same display</b>
+<b class="fc">&nbsp;                                    &amp;&amp; dispAttr.y() &gt;= referenceAttr.y() &amp;&amp; dispAttr.y() &lt;= referenceAttr.y() + referenceAttr.height()    // y is within the horizontal bounds</b>
+<b class="fc">&nbsp;                                    &amp;&amp; dispAttr.x() &lt; referenceAttr.x()</b>
+<b class="fc">&nbsp;                    ).max(Comparator.comparingInt(DisplayAttributes::x))                                                          // find the closest to the left</b>
+<b class="fc">&nbsp;                    .ifPresent(res -&gt; displayNameToDimensionMap.put(displayName, res));</b>
+&nbsp;
+&nbsp;        }
+&nbsp;
+&nbsp;        private void determineDisplayClosestToRight(DisplayAttributes referenceAttr, String displayName) {
+&nbsp;            // calculation
+&nbsp;            // must be within or equal the reference monitor vertical range (x, x + height)
+&nbsp;            // must be the closest to the left of the reference monitor without it being the same &#39;x&#39; position
+&nbsp;            // where more than one monitor is to the left, use the closest to the reference monitor.
+<b class="fc">&nbsp;            displayIdToDimensionMap.values().stream()</b>
+<b class="fc">&nbsp;                    .filter(dispAttr -&gt; dispAttr.displayId() != referenceAttr.displayId()                                         // Is not the same display</b>
+<b class="fc">&nbsp;                            &amp;&amp; dispAttr.y() &gt;= referenceAttr.y() &amp;&amp; dispAttr.y() &lt;= referenceAttr.y() + referenceAttr.height()    // y is within the horizontal bounds</b>
+<b class="fc">&nbsp;                            &amp;&amp; dispAttr.x() &gt; referenceAttr.x()</b>
+<b class="fc">&nbsp;                    ).min(Comparator.comparingInt(DisplayAttributes::x))                                                          // find the closest to the left</b>
+<b class="fc">&nbsp;                    .ifPresent(res -&gt; displayNameToDimensionMap.put(displayName, res));</b>
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>

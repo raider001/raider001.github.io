@@ -1,0 +1,281 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > OcrKeywords</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.kalynx.uitestframework.keywords</a>
+</div>
+
+<h1>Coverage Summary for Class: OcrKeywords (com.kalynx.uitestframework.keywords)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OcrKeywords</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (9/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    59.3%
+  </span>
+  <span class="absValue">
+    (35/59)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.kalynx.uitestframework.keywords;
+&nbsp;
+&nbsp;import com.kalynx.uitestframework.DI;
+&nbsp;import com.kalynx.uitestframework.controller.DisplayManager;
+&nbsp;import com.kalynx.uitestframework.controller.OcrController;
+&nbsp;import com.kalynx.uitestframework.controller.WindowController;
+&nbsp;import com.kalynx.uitestframework.data.DisplayAttributes;
+&nbsp;import com.kalynx.uitestframework.data.OcrMode;
+&nbsp;import com.kalynx.uitestframework.data.SegmentationMode;
+&nbsp;import com.kalynx.uitestframework.exceptions.DisplayNotFoundException;
+&nbsp;import com.kalynx.uitestframework.exceptions.OcrException;
+&nbsp;import com.kalynx.uitestframework.exceptions.WindowException;
+&nbsp;import net.sourceforge.tess4j.TesseractException;
+&nbsp;import net.sourceforge.tess4j.Word;
+&nbsp;import org.robotframework.javalib.annotation.ArgumentNames;
+&nbsp;import org.robotframework.javalib.annotation.RobotKeyword;
+&nbsp;import org.robotframework.javalib.annotation.RobotKeywords;
+&nbsp;
+&nbsp;import java.awt.Rectangle;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;@RobotKeywords
+<b class="fc">&nbsp;public class OcrKeywords {</b>
+<b class="fc">&nbsp;    private static final DisplayManager DISPLAY_MANAGER = DI.getInstance().getDependency(DisplayManager.class);</b>
+<b class="fc">&nbsp;    private static final WindowController WINDOW_CONTROLLER = DI.getInstance().getDependency(WindowController.class);</b>
+<b class="fc">&nbsp;    private static final OcrController OCR_CONTROLLER = DI.getInstance().getDependency(OcrController.class);</b>
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Gets all the words found on the display in a format containing the name of the word and its location.
+&nbsp;            Based on the parameters provided, the words will be extracted from the display, window, or a specific region.
+&nbsp;            The dimensions of the region can be specified using the x, y, width, and height parameters and act as offsets from the top-left corner of the display or window.
+&nbsp;            All options are optional, but where a dimension is provided, all dimensions must also be provided.
+&nbsp;            Display and window cannot be defined at the same time.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;display=&quot;, &quot;window=&quot;, &quot;x=&quot;, &quot;y=&quot;, &quot;width=&quot;, &quot;height=&quot;})
+&nbsp;    public List&lt;Map&lt;String, Object&gt;&gt; getWords(String display, String window, Integer x, Integer y, Integer width, Integer height) throws DisplayNotFoundException, OcrException, WindowException {
+<b class="fc">&nbsp;        BufferedImage img = determineCaptureRegion(display, window, x, y, width, height);</b>
+<b class="fc">&nbsp;        return getWords(img);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Returns all the text read from on the screen
+&nbsp;            Based on the parameters provided, the words will be extracted from the display, window, or a specific region.
+&nbsp;            The dimensions of the region can be specified using the x, y, width, and height parameters and act as offsets from the top-left corner of the display or window.
+&nbsp;            All options are optional, but where a dimension is provided, all dimensions must also be provided.
+&nbsp;            Display and window cannot be defined at the same time.
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;display=&quot;, &quot;window=&quot;, &quot;x=&quot;, &quot;y=&quot;, &quot;width=&quot;, &quot;height=&quot;})
+&nbsp;    public String getText(String display, String window, Integer x, Integer y, Integer width, Integer height) throws DisplayNotFoundException, TesseractException, OcrException, WindowException {
+<b class="fc">&nbsp;        BufferedImage img = determineCaptureRegion(display, window, x, y, width, height);</b>
+<b class="fc">&nbsp;        return OCR_CONTROLLER.readText(img);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Set OCR Mode
+&nbsp;            Available Options:
+&nbsp;            - OEM_TESSERACT_ONLY
+&nbsp;            - OEM_LSTM_ONLY
+&nbsp;            - OEM_TESSERACT_LSTM_COMBINED
+&nbsp;            - OEM_DEFAULT
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;ocrMode&quot;})
+&nbsp;    public void setOcrMode(String val) {
+&nbsp;        OcrMode mode;
+&nbsp;        try {
+<b class="nc">&nbsp;            mode = OcrMode.valueOf(val.toUpperCase());</b>
+<b class="nc">&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Invalid OCR Mode.&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        OCR_CONTROLLER.setOcrMode(mode.ordinal());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Set Page Segmentation Mode
+&nbsp;            Available Options:
+&nbsp;            - OSD_ONLY
+&nbsp;            - AUTO_OSD
+&nbsp;            - AUTO_ONLY
+&nbsp;            - AUTO
+&nbsp;            - SINGLE_COLUMN
+&nbsp;            - SINGLE_BLOCK_VERT_TEXT
+&nbsp;            - SINGLE_BLOCK
+&nbsp;            - SINGLE_LINE
+&nbsp;            - SINGLE_WORD
+&nbsp;            - CIRCLE_WORD
+&nbsp;            - SINGLE_CHAR
+&nbsp;            - SPARSE_TEXT
+&nbsp;            - SPARSE_TEXT_OSD
+&nbsp;            - RAW_LINE
+&nbsp;            - COUNT
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;pageSegMode&quot;})
+&nbsp;    public void setPageSegMode(String val) {
+&nbsp;        SegmentationMode mode;
+&nbsp;        try {
+<b class="nc">&nbsp;            mode = SegmentationMode.valueOf(val.toUpperCase());</b>
+<b class="nc">&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Invalid Segmentation Mode.&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        OCR_CONTROLLER.setPageSegMode(mode.ordinal());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RobotKeyword(&quot;&quot;&quot;
+&nbsp;            Sets the OCR Trained Data Path
+&nbsp;            &quot;&quot;&quot;)
+&nbsp;    @ArgumentNames({&quot;path&quot;})
+&nbsp;    public void setDataPath(String path) {
+<b class="nc">&nbsp;        OCR_CONTROLLER.setDataPath(path);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private List&lt;Map&lt;String, Object&gt;&gt; getWords(BufferedImage image) {
+<b class="fc">&nbsp;        List&lt;Word&gt; words = OCR_CONTROLLER.getWords(image);</b>
+<b class="fc">&nbsp;        List&lt;Map&lt;String, Object&gt;&gt; data = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Word word : words) {</b>
+<b class="fc">&nbsp;            Map&lt;String, Object&gt; wordData = Map.of(</b>
+<b class="fc">&nbsp;                    &quot;text&quot;, word.getText().replace(&quot;\n&quot;, &quot;&quot;).trim(),</b>
+<b class="fc">&nbsp;                    &quot;x&quot;, word.getBoundingBox().getX(),</b>
+<b class="fc">&nbsp;                    &quot;y&quot;, word.getBoundingBox().getY(),</b>
+<b class="fc">&nbsp;                    &quot;confidence&quot;, word.getConfidence(),</b>
+<b class="fc">&nbsp;                    &quot;width&quot;, word.getBoundingBox().getWidth(),</b>
+<b class="fc">&nbsp;                    &quot;height&quot;, word.getBoundingBox().getHeight());</b>
+<b class="fc">&nbsp;            data.add(wordData);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return data.stream().filter(word -&gt; !word.get(&quot;text&quot;).toString().isEmpty()).toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void performBasicValidation(String display, String window, Integer x, Integer y, Integer width, Integer height) throws OcrException {
+<b class="fc">&nbsp;        isDimensionsValid(x, y, width, height);</b>
+<b class="fc">&nbsp;        if (display != null &amp;&amp; window != null) throw new OcrException(&quot;Cannot specify both display and window.&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void isDimensionsValid(Integer x, Integer y, Integer width, Integer height) throws OcrException {
+<b class="fc">&nbsp;        int nulls = 0;</b>
+<b class="fc">&nbsp;        if (x == null) nulls++;</b>
+<b class="fc">&nbsp;        if (y == null) nulls++;</b>
+<b class="fc">&nbsp;        if (width == null) nulls++;</b>
+<b class="fc">&nbsp;        if (height == null) nulls++;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (nulls &gt; 0 &amp;&amp; nulls &lt; 4) throw new OcrException(&quot;Either all dimensions must be applied, or none at all.&quot;);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    private void translateRegionIfDimensionsDefined(Integer x, Integer y, Integer width, Integer height, Rectangle r) {
+<b class="fc">&nbsp;        if (x != null) {</b>
+<b class="nc">&nbsp;            r.x += x;</b>
+<b class="nc">&nbsp;            r.y += y;</b>
+<b class="nc">&nbsp;            r.width = width;</b>
+<b class="nc">&nbsp;            r.height = height;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private BufferedImage determineCaptureRegion(String display, String window, Integer x, Integer y, Integer width, Integer height) throws OcrException, DisplayNotFoundException, WindowException {
+<b class="fc">&nbsp;        performBasicValidation(display, window, x, y, width, height);</b>
+&nbsp;        Rectangle r;
+<b class="fc">&nbsp;        if (display != null) {</b>
+<b class="nc">&nbsp;            DisplayAttributes attr = DISPLAY_MANAGER.getDisplay(display);</b>
+<b class="nc">&nbsp;            r = new Rectangle(DISPLAY_MANAGER.getDisplayDisplayRegion(attr).displayRegion());</b>
+<b class="nc">&nbsp;            translateRegionIfDimensionsDefined(x, y, width, height, r);</b>
+<b class="nc">&nbsp;        } else if (window != null) {</b>
+<b class="fc">&nbsp;            r = WINDOW_CONTROLLER.getWindowDimensions(window);</b>
+<b class="fc">&nbsp;            translateRegionIfDimensionsDefined(x, y, width, height, r);</b>
+<b class="nc">&nbsp;        } else if (x != null) {</b>
+<b class="nc">&nbsp;            r = new Rectangle(x, y, width, height);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            DisplayAttributes attr = DISPLAY_MANAGER.getSelectedDisplay();</b>
+<b class="nc">&nbsp;            DisplayManager.DisplayData dd = DISPLAY_MANAGER.getDisplayDisplayRegion(attr);</b>
+<b class="nc">&nbsp;            r = new Rectangle(dd.displayRegion());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return DISPLAY_MANAGER.capture(r);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-10-26 21:12</div>
+</div>
+</body>
+</html>
